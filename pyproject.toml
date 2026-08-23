@@ -1,0 +1,11 @@
+[project]
+name = "job-radar"
+version = "0.1.0"
+description = "Personal job search automation platform for discovering, evaluating, and tailoring remote job opportunities."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "httpx>=0.28.1",
+    "psycopg[binary]>=3.3.4",
+    "sqlalchemy>=2.0.52",
+]
