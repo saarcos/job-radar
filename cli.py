@@ -1,18 +1,17 @@
 # cli.py
-import psycopg
 
 from adapters.persistence import raw_postings
+from adapters.persistence.db import SessionLocal
 from adapters.sources import remotive
 from domain import normalize
-
-CONNECTION_STRING = "postgresql://jobradar:local@localhost:5433/jobradar"
 
 
 def main():
     jobs = remotive.fetch_jobs()
-    with psycopg.connect(CONNECTION_STRING) as conn:
-        raw_postings.save_many(conn, source_id=1, jobs=jobs)
-        for title, company in raw_postings.fetch_all(conn):
+    with SessionLocal() as session:
+        raw_postings.save_many(session, source_id=1, jobs=jobs)
+        session.commit()
+        for title, company in raw_postings.fetch_all(session):
             print(f"{normalize.company(company)} | {normalize.title(title)}")
 
 
