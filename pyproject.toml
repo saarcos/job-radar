@@ -9,3 +9,8 @@ dependencies = [
     "psycopg[binary]>=3.3.4",
     "sqlalchemy>=2.0.52",
 ]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.16.6",
+]
