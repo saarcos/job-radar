@@ -1,6 +1,6 @@
 import pytest
 
-from domain import normalize
+from jobradar.domain import normalize
 
 
 @pytest.mark.parametrize(

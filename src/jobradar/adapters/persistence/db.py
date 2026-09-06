@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-CONNECTION_STRING = "postgresql+psycopg://jobradar:local@localhost:5433/jobradar"
+from jobradar.config import settings
 
-engine = create_engine(CONNECTION_STRING)
+engine = create_engine(settings.database_url)
 SessionLocal = sessionmaker(bind=engine)

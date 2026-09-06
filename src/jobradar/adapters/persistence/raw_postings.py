@@ -4,7 +4,7 @@ import json
 from sqlalchemy import func, select
 from sqlalchemy.dialects.postgresql import insert
 
-from adapters.persistence.models import RawPosting
+from jobradar.adapters.persistence.models import RawPosting
 
 
 def compute_content_hash(payload: dict) -> str:

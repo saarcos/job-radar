@@ -1,9 +1,9 @@
 # cli.py
 
-from adapters.persistence import raw_postings
-from adapters.persistence.db import SessionLocal
-from adapters.sources import remotive
-from domain import normalize
+from jobradar.adapters.persistence import raw_postings
+from jobradar.adapters.persistence.db import SessionLocal
+from jobradar.adapters.sources import remotive
+from jobradar.domain import normalize
 
 
 def main():
