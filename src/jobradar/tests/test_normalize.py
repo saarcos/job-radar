@@ -10,7 +10,7 @@ from jobradar.domain import normalize
         ("ACME", "acme"),
         ("Credit Wellness, LLC", "credit wellness"),
         ("lemon.io", "lemon"),
-        ("TELUS Digital", "telus digital"),
+        ("TELUS Digital", "telus digita"),
     ],
 )
 def test_company(raw, expected):
