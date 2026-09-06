@@ -5,19 +5,20 @@ from sqlalchemy import func, select
 from sqlalchemy.dialects.postgresql import insert
 
 from jobradar.adapters.persistence.models import RawPosting
+from jobradar.domain.ports.job_source import RawJob
 
 
 def compute_content_hash(payload: dict) -> str:
     return hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()
 
 
-def save_many(session, source_id: int, jobs: list[dict]) -> None:
+def save_many(session, source_id: int, jobs: list[RawJob]) -> None:
     rows = [
         {
             "source_id": source_id,
-            "external_id": str(job["id"]),
-            "payload_json": job,
-            "content_hash": compute_content_hash(job),
+            "external_id": job.external_id,
+            "payload_json": job.payload,
+            "content_hash": compute_content_hash(job.payload),
         }
         for job in jobs
     ]
