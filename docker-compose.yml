@@ -1,0 +1,41 @@
+name: jobradar
+
+services:
+  db:
+    image: postgres:16
+    # Interpolated from .env. ":?" makes compose fail with this message instead
+    # of silently using an empty value.
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:?set POSTGRES_USER in .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:?set POSTGRES_DB in .env}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5433:5432"
+    healthcheck:
+      # -h localhost forces a TCP check. On first-time init Postgres runs a
+      # temporary server on the Unix socket only, which would pass a socket check
+      # before the database accepts network connections.
+      test: ["CMD", "pg_isready", "-h", "localhost", "-U", "${POSTGRES_USER}", "-d", "${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 30s
+      # Check every second while starting, so api starts as soon as db is ready.
+      start_interval: 1s
+
+  api:
+    build: .
+    env_file: .env
+    environment:
+      # Overrides the host value from .env: inside the compose network, Postgres is db:5432.
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8000:8000"
+
+volumes:
+  pgdata:
