@@ -1,5 +1,6 @@
-import pytest
 from fastapi.testclient import TestClient
+
+import pytest
 
 from jobradar.api.dependencies import database_is_up
 from jobradar.api.main import app
