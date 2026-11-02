@@ -19,7 +19,9 @@ jobs:
   # The job id is the name of the status check that the ruleset on main
   # requires. Renaming it leaves every PR waiting for a check that never reports.
   backend:
-    runs-on: ubuntu-latest
+    # Pinned instead of ubuntu-latest: the runner image changes only when we
+    # decide to move it, not when GitHub migrates the label.
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
 
     services:
@@ -53,6 +55,8 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
         with:
+          # Same uv as the Dockerfile (and local). Bump both together.
+          version: "0.11.13"
           enable-cache: true
 
       # --locked fails if uv.lock is out of date with pyproject.toml, like the Docker build.
