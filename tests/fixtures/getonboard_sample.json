@@ -1,0 +1,367 @@
+{
+  "data": [
+    {
+      "id": "desarrollador-a-full-stack-financia-capital-santiago",
+      "type": "job",
+      "attributes": {
+        "title": "Desarrollador/a Full-Stack",
+        "description_headline": "Requerimientos del cargo",
+        "description": "<ul><li>Al menos 3 años de experiencia profesional con PHP y Laravel.</li><li>Experiencia desarrollando frontends con Vue.js.</li><li>Buen manejo de SQL y modelamiento de bases de datos relacionales (MySQL o SQL Server).</li><li>Experiencia construyendo y consumiendo APIs REST.</li><li>Manejo de Git y trabajo con ramas y pull requests.</li><li>Buena comunicación y capacidad de trabajar en equipo.</li><li>Autonomía, proactividad y ganas de aprender.</li></ul>",
+        "projects": "<p>Somos una empresa financiera que busca democratizar el acceso a financiamiento para pequeñas y medianas empresas. En Financia Capital estamos digitalizando nuestros procesos para que nuestros clientes gestionen sus operaciones financieras de forma simple, rápida y segura.</p><p>Te integrarás al equipo de TI y trabajarás en todo nuestro ecosistema: el backoffice interno, el portal de clientes, las APIs que conectan con nuestro sistema de factoring y los servicios de datos.</p>",
+        "functions_headline": "Funciones del cargo",
+        "functions": "<p>Dentro de tus principales funciones estarán:</p><ul><li>Desarrollar nuevos módulos y funcionalidades en nuestras plataformas Laravel + Vue, de punta a punta: modelo de datos, API, interfaz y despliegue.</li><li>Desarrollar y mantener servicios de datos en Python (FastAPI) desplegados en API Gateway AWS Lambda, que alimentan nuestras plataformas con información de clientes y evaluaciones.</li><li>Mantener y mejorar las plataformas existentes: corrección de errores, rendimiento y refactorización.</li><li>Integrar servicios externos (Servicio de Impuestos Internos, burós de crédito, bancos, CRM) y APIs internas.</li><li>Participar en revisiones de código (pull requests) y proponer mejoras técnicas y de arquitectura.</li><li>Colaborar con negocio y producto en la definición de requerimientos e interfaces.</li><li>Contribuir al logro de los objetivos y KPIs del equipo.</li></ul><p>Nuestro stack:</p><ul><li>Backend: PHP 8 / Laravel, Python / FastAPI, AdonisJS (Node.js + TypeScript).</li><li>Frontend: Vue.js, Inertia.js, Element UI / Element Plus, TailwindCSS, Vite.</li><li>Datos: MySQL, SQL Server, Redis.</li><li>Cloud: AWS (Lambda, S3, RDS, EC2, SNS), Cloudflare.</li><li>Herramientas: Git / GitHub, Sentry, Notion.</li></ul>",
+        "benefits_headline": "",
+        "benefits": "",
+        "desirable_headline": "Opcionales",
+        "desirable": "<p>Suma puntos si tienes:</p><ul><li>Experiencia con Python (FastAPI, pandas o SQLAlchemy) y despliegues serverless en AWS Lambda.</li><li>Experiencia con Inertia.js o Vue 3.</li><li>Experiencia con Node.js / TypeScript, idealmente AdonisJS.</li><li>Experiencia con otros servicios de AWS (S3, RDS, SNS).</li><li>Experiencia escribiendo tests (PHPUnit / Pest) y usando herramientas de calidad de código.</li><li>Experiencia en factoring, fintech o integraciones con el SII.</li><li>Portafolio o repositorios públicos (GitHub, GitLab, Bitbucket).</li></ul>",
+        "remote": false,
+        "remote_modality": "no_remote",
+        "remote_zone": null,
+        "countries": [
+          "Chile"
+        ],
+        "lang": "lang_not_specified",
+        "category_name": "Programming",
+        "perks": [
+          "health_coverage",
+          "computer_provided",
+          "informal_dresscode"
+        ],
+        "min_salary": 1700,
+        "max_salary": 2000,
+        "published_at": 1793133968,
+        "response_time_in_days": {
+          "min": null,
+          "max": null
+        },
+        "applications_count": 84,
+        "location_regions": {
+          "data": []
+        },
+        "location_tenants": {
+          "data": []
+        },
+        "location_cities": {
+          "data": [
+            {
+              "id": 1,
+              "type": "location_city"
+            }
+          ]
+        },
+        "modality": {
+          "data": {
+            "id": 1,
+            "type": "modality"
+          }
+        },
+        "seniority": {
+          "data": {
+            "id": 3,
+            "type": "seniority"
+          }
+        },
+        "tags": {
+          "data": [
+            {
+              "id": 22,
+              "type": "tag"
+            },
+            {
+              "id": 53,
+              "type": "tag"
+            },
+            {
+              "id": 64,
+              "type": "tag"
+            },
+            {
+              "id": 102,
+              "type": "tag"
+            },
+            {
+              "id": 135,
+              "type": "tag"
+            },
+            {
+              "id": 76103,
+              "type": "tag"
+            }
+          ]
+        },
+        "company": {
+          "data": {
+            "id": "financia-capital-cl",
+            "type": "company",
+            "attributes": {
+              "name": "Financia Capital",
+              "description": "La forma más simple y efectiva de obtener liquidez para su empresa",
+              "long_description": "",
+              "projects": "<p>&nbsp;En <strong>Financia Capital</strong> trabajamos para fortalecer el factoring y las soluciones financieras a través de procesos tecnológicos seguros y eficientes.<br> Nuestro equipo de <strong>TI</strong> integra desarrollo, datos, soporte e infraestructura, colaborando estrechamente para mantener la continuidad operativa y mejorar la experiencia de las distintas áreas de la empresa.&nbsp;</p><p>Buscamos un <strong>Jefe de Infraestructura y Ciberseguridad</strong> que lidere al equipo interno de soporte, asegurando que nuestra infraestructura tecnológica funcione con estabilidad, rendimiento y seguridad.<br> El rol está enfocado en la <strong>gestión operativa y técnica del entorno interno</strong>, abarcando redes, usuarios, accesos, políticas de seguridad y equipamiento crítico, además de coordinar tareas con proveedores externos cuando sea necesario.&nbsp;</p><p>Reportarás directamente al <strong>CTO</strong>, participando en decisiones técnicas del área, estableciendo procesos, definiendo estándares de seguridad y ejecutando proyectos de mejora que impactan en toda la organización.&nbsp;</p>",
+              "benefits": "<ul><li>&nbsp;Contrato indefinido.</li><li>Modalidad Presencial.</li><li>Acceso a proyectos desafiantes y de alto impacto real en el negocio.</li><li>Participación activa en decisiones técnicas de productos en crecimiento.</li><li>Espacio para aprender y crecer junto al equipo.&nbsp;</li></ul>",
+              "web": "https://www.financiacapital.cl",
+              "twitter": "",
+              "github": "",
+              "facebook": "",
+              "angellist": "",
+              "country": "CL",
+              "response_time_in_days": {
+                "min": 8,
+                "max": 20
+              },
+              "logo": "https://getonbrd-prod.s3.amazonaws.com/uploads/users/logo/12324/Recurso_1_300x-100.jpg"
+            }
+          }
+        }
+      },
+      "links": {
+        "public_url": "https://www.getonbrd.com/jobs/desarrollador-a-full-stack-financia-capital-santiago"
+      }
+    },
+    {
+      "id": "senior-software-engineer-vetclaims-ai-remote",
+      "type": "job",
+      "attributes": {
+        "title": "Senior Software Engineer",
+        "description_headline": "What we're looking for",
+        "description": "<ul><li>5+ years building production web applications, with real ownership of systems on both frontend and backend.</li><li>Strong TypeScript, Next.js, Prisma and Postgres. You understand the server/client boundary, caching, and how schema and query design affect the product.</li><li>You work with AI agents as a lead, not a typist. You run several agents on real work, know where they fail, and catch what they get wrong before it ships.</li><li>You've improved an agent harness at your current job: better context, tools, rules, review loops or evals that measurably changed agent output. Tell us what you changed and what it fixed.</li><li>You're curious about how your role is changing with AI, and you have opinions about it.</li><li>You're comfortable with non-technical stakeholders. You can ask the right questions, push back on the wrong solution and explain trade-offs in plain language.</li><li>Good technical taste: you prefer simple, boring solutions and delete code as readily as you write it.</li><li>Professional English for daily written and spoken work.</li></ul>",
+        "projects": "<p><strong>The role</strong></p><p>We're hiring a Senior Software Engineer who works like a tech lead for a team of AI agents. You own problems end to end: you sit with the people who have them, decide what to build, direct agents to do much of the implementation, and stay accountable for what ships. Code is cheap now. Judgment isn't. We care less about how many lines you write and more about whether you can tell good output from plausible output, design contracts that hold up, and say no to complexity the problem doesn't need. Our stack is full-stack TypeScript: Next.js, Prisma and Postgres, running on Google Cloud. Location: Remote. Time-zone overlap: CST. Compensation: USD 6.000 per month</p>",
+        "functions_headline": "What you'll do",
+        "functions": "<ul><li>Work directly with PMs and the company's departments to understand their problems, then turn them into scoped, shippable solutions.</li><li>Build features across the stack: Next.js (App Router, Server Components, Server Actions), Prisma and Postgres.</li><li>Orchestrate several AI coding agents in parallel. Break work down, write the specs and context they need, review their output critically and own the result.</li><li>Improve our agent harness: the prompts, tools, context, guardrails and evals that make agents reliable on our codebase.</li><li>Design the contracts between frontend and backend, and keep them stable as the product evolves.</li><li>Review code, human or AI-written, with a focus on authorization, data integrity, payments and privacy.</li><li>Help shape how our engineering team works as AI changes what an engineer's day looks like.</li></ul>",
+        "benefits_headline": "Benefits and how we communicate",
+        "benefits": "<p>15 PTO days + your country holidays + Sick days </p><p>Good communication is non-negotiable for us. We love communication, and we dislike meetings that could have been a Slack message.</p><ul><li><strong>Async first.</strong> Most of our work happens in writing. When async isn't enough, we jump on a quick huddle instead of letting a thread drag on.</li><li><strong>Share progress often.</strong> Post updates, blockers and decisions without being asked. If we have to ask how things are going, that's a bad sign.</li><li><strong>Write clearly.</strong> Your messages should give the reader enough context to act without a follow-up question.</li></ul>",
+        "desirable_headline": "Nice to have",
+        "desirable": "<ul><li>Infrastructure experience isn't required, but it helps.</li><li>Google Cloud (Cloud Run, Cloud SQL, IAM, Secret Manager) or comparable AWS experience.</li><li>Experience in regulated or privacy-sensitive domains: health, legal, insurance or government benefits.</li></ul>",
+        "remote": true,
+        "remote_modality": "fully_remote",
+        "remote_zone": null,
+        "countries": [
+          "Remote"
+        ],
+        "lang": "en",
+        "category_name": "Programming",
+        "perks": [
+          "remote_full",
+          "flexible_hours",
+          "informal_dresscode",
+          "vacation_over_legal"
+        ],
+        "min_salary": 6000,
+        "max_salary": 6000,
+        "published_at": 1792872188,
+        "response_time_in_days": {
+          "min": 0,
+          "max": 2
+        },
+        "applications_count": 681,
+        "location_regions": {
+          "data": []
+        },
+        "location_tenants": {
+          "data": []
+        },
+        "location_cities": {
+          "data": []
+        },
+        "modality": {
+          "data": {
+            "id": 1,
+            "type": "modality"
+          }
+        },
+        "seniority": {
+          "data": {
+            "id": 4,
+            "type": "seniority"
+          }
+        },
+        "tags": {
+          "data": [
+            {
+              "id": 51,
+              "type": "tag"
+            },
+            {
+              "id": 225,
+              "type": "tag"
+            },
+            {
+              "id": 259,
+              "type": "tag"
+            },
+            {
+              "id": 355,
+              "type": "tag"
+            },
+            {
+              "id": 762,
+              "type": "tag"
+            },
+            {
+              "id": 1471,
+              "type": "tag"
+            },
+            {
+              "id": 1696,
+              "type": "tag"
+            },
+            {
+              "id": 2371,
+              "type": "tag"
+            }
+          ]
+        },
+        "company": {
+          "data": {
+            "id": "vetclaims-ai",
+            "type": "company",
+            "attributes": {
+              "name": "Vetclaims.ai",
+              "description": "VetClaims AI helps U.S. veterans prepare the documentation for their VA disability claims. About 8,000 veterans a month rely on us, and around 400 people at the company depend on the systems our engineering team builds. The data we handle is personal and ",
+              "long_description": "",
+              "projects": null,
+              "benefits": "<p>15 PTO days + your country holidays + Sick days <br><br>Good communication is non-negotiable for us. We love communication, and we dislike meetings that could have been a Slack message.</p><ul><li><strong>Async first.</strong> Most of our work happens in writing. When async isn't enough, we jump on a quick huddle instead of letting a thread drag on.</li><li><strong>Share progress often.</strong> Post updates, blockers and decisions without being asked. If we have to ask how things are going, that's a bad sign.</li><li><strong>Write clearly.</strong> Your messages should give the reader enough context to act without a follow-up question.</li></ul><p><br></p>",
+              "web": "http://vetclaims.ai",
+              "twitter": null,
+              "github": null,
+              "facebook": null,
+              "angellist": null,
+              "country": "US",
+              "response_time_in_days": {
+                "min": 0,
+                "max": 2
+              },
+              "logo": "https://getonbrd-prod.s3.amazonaws.com/uploads/users/logo/20901/alogovet.jpeg"
+            }
+          }
+        }
+      },
+      "links": {
+        "public_url": "https://www.getonbrd.com/jobs/senior-software-engineer-vetclaims-ai-remote"
+      }
+    },
+    {
+      "id": "especialista-integracion-pleno-bci-santiago-f68d",
+      "type": "job",
+      "attributes": {
+        "title": "Especialista Integración Pleno",
+        "description_headline": "Para tener éxito en esta posición necesitas:",
+        "description": "<ul><li>Experiencia en Java, mínimo 4 años, con conocimiento de Java 8 o superior.</li><li>Experiencia mínima 2 años en desarrollo y diseño de Microservicios.</li><li>Experiencia integrando Web Services SOAP.</li><li>Conocimientos de diseño de Apis / Restful.</li><li>Experiencia en Spring Boot, y conocimiento sólido en el framework Spring.</li><li>Conocimientos básicos de tecnologías en la nube.</li></ul>",
+        "projects": "<p>Diseñar e implementar los microservicios y APIs que permiten habilitar la plataforma de Integración del banco, con el fin de dar soporte al proceso de transformación digital en Bci, permitiendo que la corporación pueda contar con una plataforma basada en componentes independientes, autónomos y escalables, entregados de forma rápida y oportuna, con foco en la excelencia y utilización óptima de recursos.</p><p>Diseñar e implementar los microservicios y APIs que permiten habilitar la plataforma de Integración del banco, con el fin de dar soporte al proceso de transformación digital en Bci, permitiendo que la corporación pueda contar con una plataforma basada en componentes independientes, autónomos y escalables, entregados de forma rápida y oportuna, con foco en la excelencia y utilización óptima de recursos.</p>",
+        "functions_headline": "En este rol tendrás la oportunidad de:",
+        "functions": "<ul><li>Implementar APIs y microservicios en los distintos proyectos/programas de Transformación Digital, basados en un modelo de referencia para servicios financieros y en estándares de la industria, que posteriormente pasarán a formar parte del catálogo de microservicios del banco.Permitir que nuevos productos y servicios puedan ser entregados de forma ágil, poniendo énfasis en la reutilización de componentes.</li><li>Proveer APIS y microservicios tanto para nuestros clientes internos como externos.</li><li>Participar en la co-creación de un gobierno robusto(procesos, roles, tecnología) que permita entregar en tiempo, forma y calidad los microservicios a nuestros clientes.</li><li>Ser un referente técnico de APIs y microservicios.</li><li>Generar y difundir conocimiento al interior del banco, con el fin de mejorar la competitividad y lograr diferenciación, apropiándose del plan de carrera que permita el desarrollo personal y profesional, de manera que se genere un entorno de motivación y crecimiento laboral de él y de sus pares.</li><li>Resguardar la calidad en el diseño, implementación y rendimiento óptimo de las APIs y microservicios, cumpliendo oportunamente los compromisos del proyecto.</li><li>Adoptar las prácticas de Delivery Continuo.</li><li>Optimizar los tiempos de paso a producción realizando entregas continuas para los clientes internos y externos. Con foco en mejorar el time-to-value y lograr eficiencias mediante la disminución de los esfuerzos de certificación.</li></ul>",
+        "benefits_headline": "Beneficios:",
+        "benefits": "",
+        "desirable_headline": "Es aún mejor si tienes:",
+        "desirable": "<ul><li>Certificación Java OCP Oracle Certified Professional (altamente deseable).</li><li>Haber trabajado con metodologías ágiles.</li><li>Kubernetes Básico.</li></ul>",
+        "remote": false,
+        "remote_modality": "hybrid",
+        "remote_zone": null,
+        "countries": [
+          "Chile"
+        ],
+        "lang": "lang_not_specified",
+        "category_name": "Programming",
+        "perks": [],
+        "min_salary": 3500,
+        "max_salary": 4000,
+        "published_at": 1792605728,
+        "response_time_in_days": {
+          "min": null,
+          "max": null
+        },
+        "applications_count": 102,
+        "location_regions": {
+          "data": []
+        },
+        "location_tenants": {
+          "data": []
+        },
+        "location_cities": {
+          "data": [
+            {
+              "id": 1,
+              "type": "location_city"
+            }
+          ]
+        },
+        "modality": {
+          "data": {
+            "id": 1,
+            "type": "modality"
+          }
+        },
+        "seniority": {
+          "data": {
+            "id": 3,
+            "type": "seniority"
+          }
+        },
+        "tags": {
+          "data": [
+            {
+              "id": 2,
+              "type": "tag"
+            },
+            {
+              "id": 156,
+              "type": "tag"
+            },
+            {
+              "id": 167,
+              "type": "tag"
+            },
+            {
+              "id": 235,
+              "type": "tag"
+            },
+            {
+              "id": 587,
+              "type": "tag"
+            },
+            {
+              "id": 4516,
+              "type": "tag"
+            },
+            {
+              "id": 37257,
+              "type": "tag"
+            }
+          ]
+        },
+        "company": {
+          "data": {
+            "id": "bci",
+            "type": "company",
+            "attributes": {
+              "name": "Bci",
+              "description": "Bci es una Corporación de Soluciones Financieras que aspira a ser líder regional en Innovación, Cercanía y Experiencia de Clientes, y ser reconocida como el mejor lugar para trabajar y desarrollarse. ",
+              "long_description": "<p>En Bci nos atrevemos… Queremos ser líderes regionales en innovación, cercanía, experiencia cliente y ser reconocidos como la mejor empresa para trabajar y desarrollarse. Desde nuestra fundación en 1937, nacimos con la misión de apoyar a los emprendedores, con una fuerte pasión por simplificar, facilitar y aportar a la vida y la experiencia de miles de clientes y colaboradores, y de contribuir a las comunidades en que nos desenvolvemos. Tenemos una amplia variedad de cargos y prácticas profesionales para que puedas desplegar tu talento, en un contexto de aprendizaje continuo, entretenido, diverso y desafiante… ¿Te atreves a hacer una diferencia? </p>",
+              "projects": "<p>¿Te atreves a hacer una diferencia en la industria financiera? En Bci estamos cambiando la forma de hacer banca y queremos que tú seas protagonista de esta reinvención.<br>La principal misión del cargo será ser protagonista en la administración e ingesta de datos que impulsan las plataformas y procesos de Gestión de Personas. En este rol serás responsable de integrar, limpiar y transformar datos, asegurando la integridad, continuidad y confidencialidad de la información.</p>",
+              "benefits": "<p>• Título profesional en Psicología, Ingeniería, Recursos Humanos o carrera afín.• Experiencia mínima de 4 años en diseño e implementación de experiencias formativas• Inglés oral y escrito intermedio-avanzado• Experiencia comprobada trabajando con áreas del negocio en roles de consultoría interna.• Manejo y administración de plataformas LMS/LXP.• Experiencia en gestión de proveedores y coordinación de programas de capacitación.• Habilidades para gestionar múltiples proyectos en simultáneo, con foco en cumplimiento y calidad.• Alta orientación al trabajo colaborativo, pensamiento crítico y mejora continua.• Perfil autónomo, proactivo, metódico y con fuerte compromiso con los resultados.</p>",
+              "web": "http://www.trabajaenbci.cl",
+              "twitter": "trabajaenbci",
+              "github": "",
+              "facebook": "trabajaenbci",
+              "angellist": "",
+              "country": "CL",
+              "response_time_in_days": {
+                "min": 29,
+                "max": 39
+              },
+              "logo": "https://getonbrd-prod.s3.amazonaws.com/uploads/users/logo/3125/logobci200x200.jpg"
+            }
+          }
+        }
+      },
+      "links": {
+        "public_url": "https://www.getonbrd.com/jobs/especialista-integracion-pleno-bci-santiago-f68d"
+      }
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "per_page": 5,
+    "total_pages": 63
+  }
+}

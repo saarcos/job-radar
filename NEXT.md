@@ -15,13 +15,21 @@ list (it applies to admins too), requires a PR and the `backend` check with
 the branch up to date, and blocks force pushes and deletion. Dependabot
 alerts are on, and the dependency graph reads `uv.lock`.
 
+**B3 · Pure domain — done.** `domain/normalize.py` (`company()`, `title()`,
+`canonical_key()`), `domain/html_text.py` (`to_markdown()`) and
+`domain/language.py` (`detect()`), unit-tested against real responses trimmed
+to three postings (`tests/fixtures/wwr_sample.xml`,
+`tests/fixtures/getonboard_sample.json`). `html2text` is a runtime
+dependency. The rules that changed from v1 are listed under B3 in
+`IMPLEMENTATION.md`. Two known failures are marked `xfail(strict=True)`: if
+one starts passing, the run turns red, so remove its marker in the same change.
+
 ## Next
 
-**B3 · Pure domain** (`normalize.py`, `html_text.py`, `language.py`).
-`html2text` is a new dependency: commit the updated `uv.lock` with it, or CI
-fails on `uv sync --locked`. The done criterion runs `to_markdown` on the WWR
-fixture, which does not exist yet (§1: capture it from the real feed, trimmed
-to 2–3 postings).
+**B4 · Postings schema.** Every table of §2.1, the migration, and the seed of
+`sources` and the default `search_profile`. `job_postings.language` stores the
+output of `detect()`, typed `Literal["es", "en"]` in `domain/language.py`; a
+check constraint can mirror it (it needs `name=`, see below).
 
 ## Pending
 
@@ -53,7 +61,28 @@ Decisions deferred to later blocks, and things worth knowing before them:
   (e.g. the `check (id = 1)` on `profile`).
 - **B5 · Importing `tests/fakes.py`.** pytest runs with
   `--import-mode=importlib`, so test modules cannot import each other by
-  default; `from tests.fakes import ...` will need extra configuration.
+  default; `from tests.fakes import ...` will need extra configuration. For
+  the same reason `test_html_text.py` and `test_language.py` each carry their
+  own copy of the `wwr_sample.xml` loader.
+- **B5 · Get on Board.** Request `expand=["company"]`: without it, `company`
+  is only an id (the fixture already has it expanded). The posting text is
+  split across five HTML fields (`projects`, `functions`, `description`,
+  `desirable`, `benefits`); decide which ones make `description_md`. Its
+  `lang` attribute is mostly `lang_not_specified`, Spanish postings included,
+  and it lists English postings too: the language comes from `detect()`.
+- **B6 · WWR titles.** They come as `"Company: Title"`. A title without `": "`
+  leaves the company empty, and all such postings with the same title would
+  share one key.
+- **B7 · Decoration outside brackets.** `title()` only drops decoration inside
+  brackets, so `Senior Backend Engineer - Remote` and `... (Remote)` get two
+  keys: a visible duplicate, not a lost posting (strict xfail in
+  `test_normalize.py`).
+- **B8 · What the prefilter reads.** `description_md` keeps URLs written as
+  link text: every WWR posting ends with
+  `To apply: https://weworkremotely.com/remote-jobs/<slug>`, and the slug
+  repeats the title, so a keyword can match inside it. html2text also turns
+  `&lt;` into a literal `<`. `detect()` returns `'en'` for a Spanish title
+  with no description (strict xfail in `test_language.py`).
 - **B9 · Session policy.** `get_session()` never commits; uncommitted work is
   rolled back on close. Decide whether to commit once per request or explicitly
   in each use case, and whether `get_sessionmaker()` needs
@@ -64,3 +93,5 @@ Decisions deferred to later blocks, and things worth knowing before them:
   and waits for the full `connect_timeout` (3 s per address; `localhost`
   resolves to two). In the Linux container it fails immediately. Root cause not
   verified.
+- **No LICENSE.** Without one, nobody may reuse the code. `html2text` is
+  GPL-3.0-or-later; MIT, Apache-2.0 and GPL-3.0 are all GPL-3.0-compatible.

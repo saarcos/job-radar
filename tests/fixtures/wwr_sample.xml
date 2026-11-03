@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss">
+  <channel>
+    <title>We Work Remotely: Remote jobs in design, programming, marketing and more</title>
+    <link>https://weworkremotely.com/categories/remote-programming-jobs.rss</link>
+    <description>We Work Remotely: Remote jobs in design, programming, marketing and more</description>
+    <language>en-US</language>
+    <ttl>60</ttl>
+    <item>
+      <media:content url="https://wwr-pro.s3.amazonaws.com/logos/0171/6586/logo.gif" type="image/png"/>
+      <title>Medify: Engineering Manager</title>
+      <region>Anywhere in the World</region>
+      <category>Full-Stack Programming</category>
+      <description>&lt;img src="https://we-work-remotely.imgix.net/logos/0171/6586/logo.gif?ixlib=rails-4.0.0&amp;w=50&amp;h=50&amp;dpr=2&amp;fit=fill&amp;auto=compress" /&gt;
+
+&lt;p&gt;
+  &lt;strong&gt;Headquarters:&lt;/strong&gt; London
+    &lt;br /&gt;&lt;strong&gt;URL:&lt;/strong&gt; &lt;a href="http://www.medify.co.uk"&gt;http://www.medify.co.uk&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Remote | Full-Time | UK&amp;nbsp;&lt;br&gt;&lt;br&gt;&lt;/p&gt;
+&lt;p&gt;About Us&lt;/p&gt;
+&lt;p&gt;At Medify, we’re on a mission to widen access to medicine and healthcare careers through world-class digital learning experiences. Since 2009, we’ve helped thousands of students prepare for high-stakes admissions tests, and we’re continuing to invest in our technology to build innovative, scalable products that support learners around the world.&lt;/p&gt;
+&lt;p&gt;As we continue to grow, we’re looking for an experienced Engineering Manager to lead, mentor and develop our engineering team while remaining hands-on in building the platform that powers Medify.&lt;br&gt;&lt;br&gt;&lt;/p&gt;
+&lt;p&gt;The Role&lt;/p&gt;
+&lt;p&gt;As an Engineering Manager, you’ll play a pivotal role in shaping both our engineering culture and technical direction. Working closely with the CTO, Product and Design teams, you’ll lead a team of talented full-stack engineers, helping them grow while ensuring we continue to deliver high-quality software that delights our users.&lt;/p&gt;
+&lt;p&gt;This is a hands-on leadership role, with at least 50% of your time dedicated to engineering. You’ll contribute across the full software development lifecycle - from architecture and design through to development, testing and deployment - while driving engineering excellence and fostering a collaborative, high-performing team.&lt;/p&gt;
+&lt;p&gt;Our current technology stack includes Ruby on Rails, React, PostgreSQL, with infrastructure transitioning from Heroku to AWS.&lt;br&gt;&lt;br&gt;&lt;/p&gt;
+&lt;p&gt;Key Responsibilities&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Lead, mentor and support a team of full-stack engineers through coaching, regular 1:1s and performance reviews.&lt;/li&gt;
+&lt;li&gt;Foster a culture of continuous learning, collaboration and technical excellence.&lt;/li&gt;
+&lt;li&gt;Support career development, engagement and long-term capability building across the engineering team.&lt;/li&gt;
+&lt;li&gt;Contribute to hiring by supporting interviews and recruitment of exceptional engineering talent.&lt;/li&gt;
+&lt;li&gt;Design, develop and maintain scalable, high-quality software solutions.&lt;/li&gt;
+&lt;li&gt;Collaborate closely with Product and Design teams to translate requirements into technical solutions.&lt;/li&gt;
+&lt;li&gt;Participate in architectural decisions and help shape the future of the Medify platform.&lt;/li&gt;
+&lt;li&gt;Conduct thoughtful code reviews and promote engineering best practices.&lt;/li&gt;
+&lt;li&gt;Troubleshoot and resolve software issues while maintaining high standards of reliability and performance.&lt;/li&gt;
+&lt;li&gt;Develop automated tests and contribute to a robust testing culture.&lt;/li&gt;
+&lt;li&gt;Participate in agile planning, backlog refinement and sprint delivery.&lt;/li&gt;
+&lt;li&gt;Stay up to date with emerging technologies and identify opportunities to improve our engineering practices.&lt;br&gt;&lt;br&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;About You&lt;/p&gt;
+&lt;p&gt;You’ll be a technically strong engineering leader who enjoys developing people just as much as building great software. You’re comfortable balancing strategic leadership with hands-on development and thrive in a fast-moving, collaborative environment.&lt;/p&gt;
+&lt;p&gt;You’ll ideally have:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;2+ years’ experience leading or managing software engineering teams.&lt;/li&gt;
+&lt;li&gt;5+ years’ experience in software development.&lt;/li&gt;
+&lt;li&gt;Strong experience with modern software engineering practices and frameworks.&lt;/li&gt;
+&lt;li&gt;Experience with Ruby on Rails and React (highly desirable).&lt;/li&gt;
+&lt;li&gt;A proven track record of building scalable, maintainable software.&lt;/li&gt;
+&lt;li&gt;Experience working in Agile development environments.&lt;/li&gt;
+&lt;li&gt;Experience collaborating with cross-functional Product and Design teams.&lt;/li&gt;
+&lt;li&gt;Experience recruiting, mentoring and developing engineers.&lt;/li&gt;
+&lt;li&gt;Strong communication and stakeholder management skills.&lt;/li&gt;
+&lt;li&gt;Excellent problem-solving ability with a focus on quality and continuous improvement.&lt;br&gt;&lt;br&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Qualifications&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Degree in Computer Science, Engineering or a related discipline is desirable, but not essential.&lt;br&gt;&lt;br&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Technical Skills&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Strong knowledge of modern programming languages and software frameworks.&lt;/li&gt;
+&lt;li&gt;Excellent understanding of software architecture, design principles, data structures and algorithms.&lt;/li&gt;
+&lt;li&gt;Experience working with relational databases, APIs and networking.&lt;/li&gt;
+&lt;li&gt;Knowledge of automated testing frameworks and software quality practices.&lt;/li&gt;
+&lt;li&gt;Familiarity with DevOps tools and deployment pipelines.&lt;/li&gt;
+&lt;li&gt;Ability to quickly learn and adopt new technologies.&lt;/li&gt;
+&lt;li&gt;Excellent collaboration and communication skills.&lt;br&gt;&lt;br&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;✅ What We Offer&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Fully remote working with flexibility and autonomy.&lt;/li&gt;
+&lt;li&gt;The opportunity to shape the future of Medify’s technology platform.&lt;/li&gt;
+&lt;li&gt;A supportive, collaborative engineering culture that values continuous learning.&lt;/li&gt;
+&lt;li&gt;A hands-on leadership role with real technical influence.&lt;/li&gt;
+&lt;li&gt;The opportunity to work on products that positively impact thousands of aspiring healthcare professionals every year.&lt;/li&gt;
+&lt;li&gt;Competitive salary and benefits package.&lt;br&gt;&lt;br&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;How to Apply&lt;/p&gt;
+&lt;p&gt;If you’re passionate about building exceptional software, developing high-performing engineering teams and making a meaningful impact in education, we’d love to hear from you.&lt;/p&gt;
+&lt;p&gt;Submit your application along with your CV using the link attached.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;To apply:&lt;/strong&gt; &lt;a href="https://weworkremotely.com/remote-jobs/medify-engineering-manager"&gt;https://weworkremotely.com/remote-jobs/medify-engineering-manager&lt;/a&gt;&lt;/p&gt;
+</description>
+      <pubDate>Thu, 15 Oct 2026 13:59:07 +0000</pubDate>
+      <guid>https://weworkremotely.com/remote-jobs/medify-engineering-manager</guid>
+      <link>https://weworkremotely.com/remote-jobs/medify-engineering-manager</link>
+    </item>
+    <item>
+      <title>Jumio: Machine Learning Engineer - IV (Computer Vision)</title>
+      <region>Anywhere in the World</region>
+      <category>Full-Stack Programming</category>
+      <description>
+
+&lt;p&gt;
+  &lt;strong&gt;Headquarters:&lt;/strong&gt; India (remote)
+&lt;/p&gt;
+
+&lt;h2&gt;&lt;strong&gt;Machine Learning Engineer IV – (Computer Vision)&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;We’re looking for a Staff/Senior Machine Learning Engineer with deep expertise in computer vision and biometrics to lead the design and scaling of face recognition systems in production. You’ll build and train models, and own ML systems end-to-end on AWS. The final job level for this role will be determined following the interview process.&lt;/p&gt;
+&lt;h3&gt;&lt;strong&gt;What You’ll Do&lt;/strong&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Lead the design and development of computer vision systems for biometrics (face attributes, detection, quality, and recognition)&lt;/li&gt;
+&lt;li&gt;Rigorous fairness analysis and benchmarking of biometric models across various datasets and operating conditions.&lt;/li&gt;
+&lt;li&gt;Architect, train, and optimize models using PyTorch, Tensorflow, and/or JAX&lt;/li&gt;
+&lt;li&gt;Own and evolve end-to-end ML pipelines, from data ingestion to deployment. Design automated pipelines (Airflow) for data ingestion and cleaning. You will be responsible for curating balanced training sets and generating synthetic data to address both quality and diversity gaps.&lt;/li&gt;
+&lt;li&gt;Production Engineering: Own the path to production. Optimize models for low-latency inference (quantization, distillation, TensorRT/ONNX) and manage deployment on AWS.&lt;/li&gt;
+&lt;li&gt;Mentor ML engineers, conduct code/design reviews, and drive technical best practices across the Computer Vision team.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;strong&gt;What We’re Looking For&lt;/strong&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Strong industry experience in Machine Learning, dedicated to Biometrics or Face Analysis.&lt;/li&gt;
+&lt;li&gt;Deep expertise in computer vision and biometrics, especially face recognition.&lt;/li&gt;
+&lt;li&gt;Fairness &amp;amp; Ethics: You understand the sources of algorithmic bias in Computer Vision and have practical experience measuring and mitigating disparate impact.&lt;/li&gt;
+&lt;li&gt;Strong Engineering: Expert proficiency in Python (both machine learning and vision libraries such as Pillow, OpenCV, PyTorch, etc). You write clean, modular, production-ready code.&lt;/li&gt;
+&lt;li&gt;Systems Architecture: Experience designing end-to-end ML pipelines (Data to Train to Deploy) and working with workflow orchestrators like Airflow.&lt;/li&gt;
+&lt;li&gt;Cloud Native: Hands-on experience scaling training jobs on multi-GPU clusters and deploying services on AWS (SageMaker, EC2, EKS).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;strong&gt;Nice to Have&lt;/strong&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Research Publications: Papers in CVPR, ICCV, ECCV, or FG related to face recognition, image quality assessment, or fairness.&lt;/li&gt;
+&lt;li&gt;Large Scale Search: Experience with vector databases (e.g., Milvus, Faiss) and approximate nearest neighbor (ANN) search algorithms.&lt;/li&gt;
+&lt;li&gt;Familiarity with privacy, security, and compliance in biometric systems.&lt;/li&gt;
+&lt;li&gt;Mobile/Edge Experience: Experience porting models to edge or mobile devices utilizing frameworks such as CoreML, LiteRT, and/or TFLite.&lt;/li&gt;
+&lt;li&gt;Synthetic Data: Experience using GANs or diffusion models to generate synthetic faces for training.&lt;/li&gt;
+&lt;li&gt;Strong communication skills.&lt;/li&gt;
+&lt;/ul&gt;&lt;div class="content-conclusion"&gt;&lt;p&gt;&lt;strong&gt;Jumio Values:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span&gt;IDEAL: Integrity, Diversity, Empowerment, Accountability, Leading Innovation &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Equal Opportunities&lt;/strong&gt;&lt;span&gt;&lt;strong&gt;: &lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span&gt;Jumio is a collaboration of people with different ideas, strengths, interests and cultures. We welcome applications and colleagues from all backgrounds and of all statuses.&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;About Jumio:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Jumio is a B2B technology company dedicated to eradicating online identity fraud, money laundering and other financial crimes to help make the internet safer. We leverage AI, biometrics, machine learning, liveness detection and automation to create solutions that are trusted by leading brands worldwide and respected by industry thought leaders.&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;Jumio is the leading provider of online identity verification, eKYC and AML solutions. With a global footprint, we’re expanding the team to meet strong client demand across a range of industries including Financial Services, Travel, Sharing Economy, Fintech, Gaming, and others.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Applicant Data Privacy &lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;We will only use your personal information in connection with Jumio’s application, recruitment, and hiring processes, as described in Jumio’s &lt;a href="https://www.jumio.com/legal-information/privacy-notices/candidate-notice/"&gt;Applicant Privacy Notice.&lt;/a&gt; If you have any questions or comments, please send an email to &lt;a href="mailto:privacy@jumio.com"&gt;privacy@jumio.com&lt;/a&gt;.&lt;/p&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;To apply:&lt;/strong&gt; &lt;a href="https://weworkremotely.com/remote-jobs/jumio-machine-learning-engineer-iv-computer-vision"&gt;https://weworkremotely.com/remote-jobs/jumio-machine-learning-engineer-iv-computer-vision&lt;/a&gt;&lt;/p&gt;
+</description>
+      <pubDate>Sat, 10 Oct 2026 07:30:40 +0000</pubDate>
+      <guid>https://weworkremotely.com/remote-jobs/jumio-machine-learning-engineer-iv-computer-vision</guid>
+      <link>https://weworkremotely.com/remote-jobs/jumio-machine-learning-engineer-iv-computer-vision</link>
+    </item>
+    <item>
+      <title>Lemon.io: Senior React Full-stack Developer</title>
+      <region>Anywhere in the World</region>
+      <category>Full-Stack Programming</category>
+      <description>
+
+&lt;p&gt;
+  &lt;strong&gt;Headquarters:&lt;/strong&gt; New York, NY
+    &lt;br /&gt;&lt;strong&gt;URL:&lt;/strong&gt; &lt;a href="https://lemon.io"&gt;https://lemon.io&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Are you a talented Senior Developer looking for a remote job that lets you show your skills and get decent compensation? Look no further than &lt;a href="https://lemon.io/for-developers/?utm_source=weworkremotely&amp;amp;utm_medium=job_ad&amp;amp;utm_campaign=supply_en_react_node/python/ruby_oct_2026_job_ad"&gt;Lemon.io&lt;/a&gt; — the marketplace that connects you with hand-picked startups in the US and Europe.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;What we offer:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The rate depends on your seniority level, skills and experience. We've already paid out over $11M to our engineers.&lt;/li&gt;
+&lt;li&gt;No more hunting for clients or negotiating rates — let us handle the business side of things so you can focus on what you do best.&lt;/li&gt;
+&lt;li&gt;We'll manually find the best project for you according to your skills and preferences.&lt;/li&gt;
+&lt;li&gt;Choose a schedule that works best for you. It’s possible to communicate async or minimally overlap within team working hours.&lt;/li&gt;
+&lt;li&gt;We respect your seniority so you can expect no micromanagement or screen trackers.&lt;/li&gt;
+&lt;li&gt;Communicate directly with the clients. Most of them have technical backgrounds. Sounds good, yeah?&lt;/li&gt;
+&lt;li&gt;We will support you from the time you submit the application throughout all cooperation stages.&lt;/li&gt;
+&lt;li&gt;Most of our projects involve working in a fast-paced startup environment. We hope you like it as much as we do.&lt;/li&gt;
+&lt;li&gt;Through our community, we will connect you with the best developers from more than 75 countries.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;strong&gt;Requirements for the Senior React &amp;amp; Python Position:&lt;/strong&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;4+ years of software development experience.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Commercial experience:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;React.js 3+ years &amp;amp; Python 3+ years&lt;/p&gt;
+&lt;p&gt;OR&lt;br&gt;React.js 2+ years &amp;amp; Python 5+ years&lt;br&gt;OR&lt;br&gt;React.js 5+ years &amp;amp; Python 2+ years&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Experience with AWS, GCP, or Azure is required.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;strong&gt;Requirements for the Senior Node &amp;amp; React Position:&lt;/strong&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;5+ years of software development experience&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Commercial experience:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;React.js: 3+ years, Node.js: 5+ years, and Next.js: 2+ years&lt;br&gt;&lt;strong&gt;OR&lt;/strong&gt;&lt;br&gt;React.js: 5+ years, Node.js: 3+ years, and Next.js: 2+ years&lt;/li&gt;
+&lt;li&gt;Expertise in TypeScript, AWS and AI-assisted coding is a must.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;strong&gt;Requirements for the Senior Ruby &amp;amp; React Position:&lt;/strong&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;5+ years of software development experience&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Commercial experience:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;React.js: 2+ years, Ruby: 5+ years&lt;br&gt;&lt;strong&gt;OR&lt;/strong&gt;&lt;br&gt;React.js: 5+ years, Ruby: 2+ years&lt;/li&gt;
+&lt;li&gt;Experience with AWS, GCP, or Azure is required.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Other requirements:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Strong technical skills: as a Senior Developer, you are expected to be able to create projects from scratch and have a deep understanding of application architecture.&lt;/li&gt;
+&lt;li&gt;Clear and effective communication in English — advanced ability to discuss business tasks, justify decisions, and communicate issues. Good self-presentation is also essential for upcoming client calls.&lt;/li&gt;
+&lt;li&gt;Strong self-organizational skills — ability to work full-time remotely with no supervision.&lt;/li&gt;
+&lt;li&gt;Reliability — we want to trust you and expect that you won’t let us and the client down.&lt;/li&gt;
+&lt;li&gt;Adaptability and Flexibility — the ability to onboard the project promptly after accepting it and start delivering results quickly.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Sounds good for you? Apply now and join the &lt;a href="https://lemon.io/for-developers/?utm_source=weworkremotely&amp;amp;utm_medium=job_ad&amp;amp;utm_campaign=supply_en_react_node/python/ruby_oct_2026_job_ad"&gt;Lemon.io&lt;/a&gt; community!&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOT YOUR TECH STACK?&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;We're placing Senior Developers (4+ yrs commercial experience) across AI Agent Architecture, AI Automation Architecture, AI Engineering, Site Reliability Engineering, Platform Engineering, Enterprise Software Engineering, React &amp;amp; Golang, Golang, React &amp;amp; Java, Ruby, PHP &amp;amp; Vue, Vue &amp;amp; Node.js, React &amp;amp; .NET, Android &amp;amp; iOS, iOS &amp;amp; Swift, Flutter &amp;amp; Firebase, Solutions Engineer, Blockchain (Ethereum/Ethers.js/Wagmi/Viem/Solana), Angular &amp;amp; Node.js, Vue &amp;amp; .NET, Python &amp;amp; Vue, DevOps, MLOps, Data Science, Angular &amp;amp; PHP, Angular &amp;amp; .NET, Symfony &amp;amp; React, Symfony &amp;amp; Vue, Symfony &amp;amp; Angular, Python, Symfony &amp;amp; JavaScript &amp;amp; Next.js &amp;amp; TypeScript, Data Analysis, React &amp;amp; PHP, Data Engineering, Project Management, Product Management, QA Automation, QA Manual, Embedded Software Engineering, React Native &amp;amp; Node, React Native &amp;amp; React, React Native &amp;amp; Ruby, React Native &amp;amp; Python, WordPress, Android, Angular, Python &amp;amp; Node, Java &amp;amp; Spring, Svelte &amp;amp; Python, Svelte &amp;amp; Node.js, Svelte &amp;amp; TypeScript, Rust, Shopify &amp;amp; JavaScript, Vue &amp;amp; Nuxt, PHP &amp;amp; Laravel, UI/UX Design, Animation, Graphic Design, React &amp;amp; Node &amp;amp; React Native, .NET &amp;amp; C#, Electron, Scala, C++, Unreal Engine &amp;amp; C++, Python &amp;amp; LLM, Unity, or Machine Learning Engineering and more. Reach out and we'll match you.&lt;/p&gt;
+&lt;p&gt;We do not provide visa assistance, and our cooperation model does not include the benefits typically offered with direct hire.&lt;/p&gt;
+&lt;p&gt;We work with developers from 75+ countries across Europe, Latin America, North America (the U.S. and Canada), selected countries in Asia (Japan, Singapore, South Korea, the Philippines, Indonesia, Malaysia, Vietnam, Thailand, and Israel), Oceania (Australia, New Zealand, and Papua New Guinea), and Africa (including Morocco and South Africa).&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;To apply:&lt;/strong&gt; &lt;a href="https://weworkremotely.com/remote-jobs/lemon-io-senior-react-full-stack-developer-7"&gt;https://weworkremotely.com/remote-jobs/lemon-io-senior-react-full-stack-developer-7&lt;/a&gt;&lt;/p&gt;
+</description>
+      <pubDate>Fri, 09 Oct 2026 13:49:21 +0000</pubDate>
+      <guid>https://weworkremotely.com/remote-jobs/lemon-io-senior-react-full-stack-developer-7</guid>
+      <link>https://weworkremotely.com/remote-jobs/lemon-io-senior-react-full-stack-developer-7</link>
+    </item>
+  </channel>
+</rss>
