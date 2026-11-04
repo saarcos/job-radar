@@ -41,11 +41,11 @@ Cron / scheduler · deploy en la nube · multiusuario · auth · scoring de ofer
 
 | Fuente | Endpoint | Formato | Notas |
 |---|---|---|---|
-| **Get on Board** | `https://www.getonbrd.com/api/v0/search/jobs?query=...` y `/api/v0/categories/{id}/jobs` | JSON | La mejor del conjunto. Pública, sin auth. Trae descripción completa, modalidad, países, rango salarial y **número de postulaciones**. LATAM + España, ofertas en español. Doc: `api-doc.getonbrd.com` |
+| **Get on Board** | `https://www.getonbrd.com/api/v0/search/jobs?query=...` y `/api/v0/categories/{id}/jobs` | JSON | La mejor del conjunto. Pública, sin auth. Trae descripción completa, modalidad, países, rango salarial y **número de postulaciones**. LATAM + España, ofertas mayormente en español pero también en inglés; su campo `lang` suele venir `lang_not_specified`, por eso el idioma se detecta (B3). El nombre de la empresa solo viene pidiendo `expand=["company"]`. Doc: `api-doc.getonbrd.com` |
 | **We Work Remotely** | `https://weworkremotely.com/categories/remote-programming-jobs.rss` | RSS | Descripción en HTML. Título viene como `"Empresa: Puesto"`. Trae campo `region` |
 | **Remotive** | `https://remotive.com/api/remote-jobs?category=software-dev` | JSON | Su categoría es ruidosa (devuelve copywriters y ventas). **Ignorar su filtro** y filtrar nosotros |
 
-**Regla de implementación:** verificar la forma real de la respuesta antes de escribir el adaptador. Guardar una respuesta recortada a 2–3 ofertas en `tests/fixtures/<fuente>.json` y testear el mapeo contra ese archivo. Ningún test sale a la red.
+**Regla de implementación:** verificar la forma real de la respuesta antes de escribir el adaptador. Guardar una respuesta recortada a 2–3 ofertas en `tests/fixtures/<fuente>_sample.<json|xml>`, según el formato de la fuente (`getonboard_sample.json`, `wwr_sample.xml`), y testear el mapeo contra ese archivo. Ningún test sale a la red.
 
 ---
 
@@ -659,8 +659,15 @@ Branch protection en `main` exigiendo el check `backend`.
 *Listo:* rompés un test a propósito, abrís un PR, lo ves en rojo, lo arreglás, lo ves en verde y recién ahí podés mergear. **Este bloque es el que convierte el YAML en una práctica**: a partir de acá ningún bloque se mergea con el CI en rojo.
 
 **B3 · Dominio puro**
-`normalize.py` (portado de v1, con sus tests), `html_text.py` con html2text (`ignore_links=True`, `body_width=0`), `language.py`.
-*Listo:* `pytest` verde; `to_markdown` sobre el fixture de WWR devuelve texto sin un solo tag.
+`normalize.py` (portado de v1, con sus tests), `html_text.py` con html2text (`ignore_links=True`, `ignore_images=True`, `body_width=0`, listas con `-`), `language.py` (conteo de stopwords, sin `langdetect`).
+
+Reglas que cambiaron respecto de v1:
+- **Paréntesis en el título:** su contenido se borra solo si todas sus palabras son decoración conocida (`remote`, `latam`, `f/m/d`…: `TITLE_DECORATION` en `normalize.py`). Si no, se borran los paréntesis y se conserva el contenido. Borrarlo siempre fusionaba vacantes distintas: Jumio publicó a la vez en WWR `Machine Learning Engineer - IV (Computer Vision)` y `(Biometrics)`.
+- La decoración fuera de paréntesis (`Senior Backend Engineer - Remote`) no se reconoce y da otra key: queda como `xfail` estricto.
+- `to_markdown` conserva las URLs escritas como texto de un link: `ignore_links` borra el destino, no el texto, y WWR termina cada oferta con `To apply: https://...`.
+- Las stopwords inglesas de `language.py` usan `you` en lugar de `a`, que también es preposición en español.
+
+*Listo:* `pytest` verde; `to_markdown` sobre el fixture de WWR no contiene `<`, `>` ni `&nbsp;` y conserva las listas con `-`.
 
 **B4 · Esquema de ofertas**
 Todas las tablas de §2.1 + migración + seed de `sources` y del `search_profile` por defecto.
