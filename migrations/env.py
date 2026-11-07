@@ -14,7 +14,8 @@ if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 # Autogenerate compares the database against this metadata, so it only sees
-# tables whose models are defined in (or imported by) models.py.
+# tables whose model classes have been imported; models/__init__.py imports
+# every one of them.
 target_metadata = Base.metadata
 
 # Same source as the app: real environment variables first, then .env.
