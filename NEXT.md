@@ -36,10 +36,19 @@ the upgrade/downgrade round trip and checks the seed on a throwaway database
 (`TEST_DATABASE_URL`), and compares the constraint and index definitions of
 the migrated database with those of one built by `create_all()`.
 
+**B5 · Get on Board — done.** The `JobSource` protocol
+(`ports/job_source.py`), `RawJob` and `JobData` (`domain/entities.py`), and
+`adapters/sources/getonboard.py`, which fetches three categories and maps each
+posting. Migration 002 adds `remote_modality`, `seniority_hint` and
+`applications_count` to `job_postings`. The rules that came from real responses
+are listed under B5 in `IMPLEMENTATION.md`. Tests now mirror `src/`, with the
+shared fixtures in `tests/conftest.py`, and `tests/unit/conftest.py` fails any
+unit test that opens a connection outside loopback.
+
 ## Next
 
-**B5 · Get on Board.** The `JobSource` port, the adapter, a fixture and the
-mapping tests. See the B5 notes below.
+**B6 · WWR and Remotive.** Two more adapters behind the same port. If either
+needs a change outside `adapters/sources/`, the contract is wrong.
 
 ## Pending
 
@@ -91,20 +100,27 @@ Decisions deferred to later blocks, and things worth knowing before them:
   recreate that database (and `<name>_models_test`) on every test, so its name
   must end in `_test`. The fixtures live in `test_migrations.py`; move them to
   `tests/integration/conftest.py` when B7 adds the first repository tests.
-- **B5 · Importing `tests/fakes.py`.** pytest runs with
-  `--import-mode=importlib`, so test modules cannot import each other by
-  default; `from tests.fakes import ...` will need extra configuration. For
-  the same reason `test_html_text.py` and `test_language.py` each carry their
-  own copy of the `wwr_sample.xml` loader.
-- **B5 · Get on Board.** Request `expand=["company"]`: without it, `company`
-  is only an id (the fixture already has it expanded). The posting text is
-  split across five HTML fields (`projects`, `functions`, `description`,
-  `desirable`, `benefits`); decide which ones make `description_md`. Its
-  `lang` attribute is mostly `lang_not_specified`, Spanish postings included,
-  and it lists English postings too: the language comes from `detect()`.
 - **B6 · WWR titles.** They come as `"Company: Title"`. A title without `": "`
   leaves the company empty, and all such postings with the same title would
   share one key.
+- **B6 · Reading the WWR fixture.** `load_fixture` parses JSON only, and
+  `wwr_item` gives `(title, description)` pairs. The adapter's test needs the
+  raw feed, so `tests/conftest.py` needs a loader for text.
+- **B7 · Importing `tests/fakes.py`.** pytest runs with
+  `--import-mode=importlib`, so test modules cannot import each other by
+  default; `from tests.fakes import ...` will need extra configuration, or the
+  fake can be a fixture in a `conftest.py`.
+- **B7 · What the upsert refreshes.** The sketch in §5 sets only
+  `last_seen_at`, `is_open` and `closed_at` on conflict, so
+  `applications_count`, which changes every day, would keep its first value.
+  Decide which columns are refreshed.
+- **B7 · Same company and title.** `canonical_key` merges them: 456 keys for
+  466 Get on Board postings on 2026-11-08, four of them BC Tecnología's
+  `Desarrollador Full Stack`. Whether those are one opening was not verified.
+- **B7 · Duplicate sightings.** A real run repeated no `external_id`, but a
+  posting published while paging shifts the list and can repeat one. Remove
+  duplicates by `(source_id, external_id)` before the insert, or Postgres fails
+  with *"cannot affect row a second time"*.
 - **B7 · Decoration outside brackets.** `title()` only drops decoration inside
   brackets, so `Senior Backend Engineer - Remote` and `... (Remote)` get two
   keys: a visible duplicate, not a lost posting (strict xfail in
@@ -117,6 +133,10 @@ Decisions deferred to later blocks, and things worth knowing before them:
   constructor keywords nor the dicts given to `insert(...).values()`, which is
   what the upsert uses. There, only the CHECK constraint stops a value other
   than `'es'` or `'en'`.
+- **B8 · Location on Get on Board.** `remote_zone` was null in every posting,
+  so `region_hint` is just `countries`, which says `Remote` for 214 of 466.
+  Whether a posting is workable comes from `remote_modality`: 252 of the 466
+  were `hybrid` or `no_remote`.
 - **B8 · What the prefilter reads.** `description_md` keeps URLs written as
   link text: every WWR posting ends with
   `To apply: https://weworkremotely.com/remote-jobs/<slug>`, and the slug

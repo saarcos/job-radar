@@ -41,7 +41,7 @@ Cron / scheduler · deploy en la nube · multiusuario · auth · scoring de ofer
 
 | Fuente | Endpoint | Formato | Notas |
 |---|---|---|---|
-| **Get on Board** | `https://www.getonbrd.com/api/v0/search/jobs?query=...` y `/api/v0/categories/{id}/jobs` | JSON | La mejor del conjunto. Pública, sin auth. Trae descripción completa, modalidad, países, rango salarial y **número de postulaciones**. LATAM + España, ofertas mayormente en español pero también en inglés; su campo `lang` suele venir `lang_not_specified`, por eso el idioma se detecta (B3). El nombre de la empresa solo viene pidiendo `expand=["company"]`. Doc: `api-doc.getonbrd.com` |
+| **Get on Board** | `https://www.getonbrd.com/api/v0/search/jobs?query=...` y `/api/v0/categories/{id}/jobs` | JSON | La mejor del conjunto. Pública, sin auth. Trae descripción completa, modalidad, países, rango salarial y **número de postulaciones**. LATAM + España, ofertas mayormente en español pero también en inglés; su campo `lang` suele venir `lang_not_specified` y tampoco es confiable cuando viene (27 de las 95 ofertas con `en` estaban en español), por eso el idioma siempre se detecta (B3). El nombre de la empresa y el seniority solo vienen pidiendo `expand=["company","seniority"]`. Doc: `api-doc.getonbrd.com` |
 | **We Work Remotely** | `https://weworkremotely.com/categories/remote-programming-jobs.rss` | RSS | Descripción en HTML. Título viene como `"Empresa: Puesto"`. Trae campo `region` |
 | **Remotive** | `https://remotive.com/api/remote-jobs?category=software-dev` | JSON | Su categoría es ruidosa (devuelve copywriters y ventas). **Ignorar su filtro** y filtrar nosotros |
 
@@ -80,6 +80,9 @@ job_postings                       -- una fila por vacante real
   description_md  text null
   region_hint     text null        -- 'Anywhere in the World', 'US only'... null si la fuente no lo da
   salary_raw      text null        -- texto tal cual; sin parsear
+  remote_modality text null        -- valor crudo de la fuente; null si no lo da
+  seniority_hint  text null        -- valor crudo de la fuente ('semi_senior', 'senior'...); null si no lo da
+  applications_count int null      -- solo Get on Board; null es "no sé", no cero
   language        text null check  -- 'es' | 'en' (domain.language.Language), detectado del título+descripción
   posted_at       timestamptz null
   status          text default 'new' check   -- 'new' | 'seen' | 'dismissed'
@@ -222,14 +225,14 @@ job-radar/
 ├── src/jobradar/
 │   ├── config.py                 # pydantic-settings
 │   ├── domain/                   # NO importa nada de adapters/, api/ ni librerías de IO
-│   │   ├── entities.py           # dataclasses puros
+│   │   ├── entities.py           # dataclasses puros: RawJob, JobData
 │   │   ├── normalize.py          # company(), title(), canonical_key()
 │   │   ├── html_text.py          # to_markdown()
 │   │   ├── language.py           # detect()
 │   │   ├── prefilter.py          # matches(posting, profile) -> bool
 │   │   └── validation.py         # validate(adapted, facts) -> ValidationReport
 │   ├── ports/
-│   │   ├── job_source.py         # Protocol JobSource, RawJob
+│   │   ├── job_source.py         # Protocol JobSource
 │   │   ├── llm.py                # Protocol LLMClient
 │   │   └── renderer.py           # Protocol ResumeRenderer
 │   ├── application/              # casos de uso; orquestan, no deciden reglas
@@ -251,7 +254,8 @@ job-radar/
 ├── tests/
 │   ├── fixtures/
 │   ├── fakes.py
-│   ├── unit/test_*.py            # sin red ni base de datos
+│   ├── conftest.py               # acceso a los fixtures compartidos
+│   ├── unit/<paquete>/test_*.py  # espeja src/; sin red ni base de datos
 │   └── integration/test_*.py     # contra el Postgres de compose y el de CI
 └── web/                          # React + Vite + TS
     ├── package.json
@@ -275,14 +279,16 @@ job-radar/
 
 ## 4. Contratos
 
-### 4.1 `ports/job_source.py`
+### 4.1 `domain/entities.py` y `ports/job_source.py`
+
+`RawJob` y `JobData` viven en `domain/entities.py`; `JobSource`, en `ports/job_source.py`. El puerto tiene solo lo que llama el pipeline: cómo se parsea cada respuesta es asunto de cada adaptador.
 
 ```python
 @dataclass(frozen=True)
 class RawJob:
     external_id: str
     url: str
-    payload: dict  # solo campos serializables a JSON
+    payload: dict[str, Any]  # solo campos serializables a JSON
 
 
 @dataclass(frozen=True)
@@ -292,8 +298,12 @@ class JobData:
     url: str
     description_md: str | None
     region_hint: str | None
+    remote_modality: str | None
     salary_raw: str | None
     posted_at: datetime | None
+    language: Language | None
+    seniority_hint: str | None
+    applications_count: int | None
     source_slug: str
 
     @property
@@ -690,6 +700,13 @@ Todas las tablas de §2.1 + migración + seed de `sources` y del `search_profile
 
 **B5 · Get on Board**
 Puerto `JobSource` + adaptador + fixture + tests de mapeo.
+
+Reglas que salieron de respuestas reales:
+- `language` sale siempre de `detect()`, nunca de `lang`.
+- `description_md` une `projects`, `functions`, `description`, `desirable` y `benefits` de la oferta. Si una sección se saltea lo decide su texto, no su título: hay títulos sin texto y textos sin título. `company.attributes.projects` nunca entra: es el texto de la última oferta de la empresa.
+- `salary_raw` no declara moneda: la API no la informa y la muestra no permite deducirla.
+- `region_hint` sale de los campos de la oferta, nunca de `company.attributes.country`, que dice dónde está la empresa y no dónde contrata.
+
 *Listo:* `fetch()` trae ofertas reales; los tests de mapeo corren sin red.
 
 **B6 · WWR y Remotive**
