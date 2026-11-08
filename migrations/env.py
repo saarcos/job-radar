@@ -45,7 +45,15 @@ def run_migrations_online() -> None:
     )
 
     with connectable.connect() as connection:
-        context.configure(connection=connection, target_metadata=target_metadata)
+        context.configure(
+            connection=connection,
+            target_metadata=target_metadata,
+            # Server defaults are not compared unless asked, so autogenerate
+            # and alembic check would miss a default that differs. Neither
+            # compares a check constraint's condition nor a partial index's
+            # WHERE; tests/integration/test_migrations.py covers those.
+            compare_server_default=True,
+        )
 
         with context.begin_transaction():
             context.run_migrations()
