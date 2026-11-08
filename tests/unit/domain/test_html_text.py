@@ -1,26 +1,10 @@
-import xml.etree.ElementTree as ET
-from pathlib import Path
-
 import pytest
 
 from jobradar.domain.html_text import to_markdown
 
-FIXTURES = Path(__file__).parent.parent / "fixtures"
 
-# (title, description) of each posting in a real We Work Remotely RSS response.
-WWR_ITEMS = [
-    (item.findtext("title", ""), item.findtext("description", ""))
-    for item in ET.parse(FIXTURES / "wwr_sample.xml").getroot().iter("item")
-]
-wwr_descriptions = pytest.mark.parametrize(
-    "description",
-    [description for _, description in WWR_ITEMS],
-    ids=[title for title, _ in WWR_ITEMS],
-)
-
-
-@wwr_descriptions
-def test_wwr_description_has_no_html(description):
+def test_wwr_description_has_no_html(wwr_item):
+    _, description = wwr_item
     assert "<" in description  # the fixture really is HTML
 
     markdown = to_markdown(description)
@@ -30,8 +14,8 @@ def test_wwr_description_has_no_html(description):
         assert leftover not in markdown
 
 
-@wwr_descriptions
-def test_wwr_description_drops_images_and_link_targets(description):
+def test_wwr_description_drops_images_and_link_targets(wwr_item):
+    _, description = wwr_item
     assert "<a " in description
 
     markdown = to_markdown(description)
@@ -41,8 +25,8 @@ def test_wwr_description_drops_images_and_link_targets(description):
     assert "](" not in markdown
 
 
-@wwr_descriptions
-def test_wwr_description_keeps_lists(description):
+def test_wwr_description_keeps_lists(wwr_item):
+    _, description = wwr_item
     assert "<li>" in description
 
     markdown = to_markdown(description)

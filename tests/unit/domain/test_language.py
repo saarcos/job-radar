@@ -1,47 +1,33 @@
-import json
-import xml.etree.ElementTree as ET
-from pathlib import Path
-
 import pytest
 
 from jobradar.domain.html_text import to_markdown
 from jobradar.domain.language import detect
 
-FIXTURES = Path(__file__).parent.parent / "fixtures"
 
 # Get on Board splits a posting across several HTML fields; `description` alone
 # is enough to tell the language.
-GOB_POSTINGS = {
-    job["id"]: job["attributes"]
-    for job in json.loads(
-        (FIXTURES / "getonboard_sample.json").read_text(encoding="utf-8")
-    )["data"]
-}
-WWR_ITEMS = [
-    (item.findtext("title", ""), item.findtext("description", ""))
-    for item in ET.parse(FIXTURES / "wwr_sample.xml").getroot().iter("item")
-]
-
-
 @pytest.mark.parametrize(
     ("posting_id", "expected"),
     [
-        ("desarrollador-a-full-stack-financia-capital-santiago", "es"),
-        ("especialista-integracion-pleno-bci-santiago-f68d", "es"),
+        (
+            "semi-senior-full-stack-java-developer-qa-ai-bilingue-23people-santiago",
+            "es",
+        ),
+        ("junior-integrations-developer-inversiones-vertice-limitada-santiago", "es"),
         # Get on Board also lists postings written in English.
-        ("senior-software-engineer-vetclaims-ai-remote", "en"),
+        ("senior-full-stack-engineer-improving-remote", "en"),
     ],
 )
-def test_getonboard_posting(posting_id, expected):
-    posting = GOB_POSTINGS[posting_id]
+def test_getonboard_posting(posting_id, expected, load_fixture):
+    jobs = load_fixture("getonboard_sample.json")["data"]
+    posting = next(job["attributes"] for job in jobs if job["id"] == posting_id)
 
     assert detect(posting["title"], to_markdown(posting["description"])) == expected
 
 
-@pytest.mark.parametrize(
-    ("title", "description"), WWR_ITEMS, ids=[title for title, _ in WWR_ITEMS]
-)
-def test_wwr_posting_is_english(title, description):
+def test_wwr_posting_is_english(wwr_item):
+    title, description = wwr_item
+
     assert detect(title, to_markdown(description)) == "en"
 
 
