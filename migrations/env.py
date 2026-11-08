@@ -14,7 +14,8 @@ if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 # Autogenerate compares the database against this metadata, so it only sees
-# tables whose models are defined in (or imported by) models.py.
+# tables whose model classes have been imported; models/__init__.py imports
+# every one of them.
 target_metadata = Base.metadata
 
 # Same source as the app: real environment variables first, then .env.
@@ -44,7 +45,15 @@ def run_migrations_online() -> None:
     )
 
     with connectable.connect() as connection:
-        context.configure(connection=connection, target_metadata=target_metadata)
+        context.configure(
+            connection=connection,
+            target_metadata=target_metadata,
+            # Server defaults are not compared unless asked, so autogenerate
+            # and alembic check would miss a default that differs. Neither
+            # compares a check constraint's condition nor a partial index's
+            # WHERE; tests/integration/test_migrations.py covers those.
+            compare_server_default=True,
+        )
 
         with context.begin_transaction():
             context.run_migrations()

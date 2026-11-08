@@ -24,12 +24,22 @@ dependency. The rules that changed from v1 are listed under B3 in
 `IMPLEMENTATION.md`. Two known failures are marked `xfail(strict=True)`: if
 one starts passing, the run turns red, so remove its marker in the same change.
 
+**B4 · Postings schema — done.** The six tables of §2.1 are created by
+`migrations/versions/001_job_offers_schema.py`, generated from the models in
+`adapters/persistence/models/` (one module per table; classes end in `Row` so
+they do not clash with the future `domain/entities.py`) and reviewed by hand.
+The same migration seeds the three sources and the default search profile.
+The conventions (CHECK instead of enums, server defaults, identity keys,
+constraint names) are listed under §2.1 in `IMPLEMENTATION.md`. CI runs
+`alembic check` after the upgrade. `tests/integration/test_migrations.py` runs
+the upgrade/downgrade round trip and checks the seed on a throwaway database
+(`TEST_DATABASE_URL`), and compares the constraint and index definitions of
+the migrated database with those of one built by `create_all()`.
+
 ## Next
 
-**B4 · Postings schema.** Every table of §2.1, the migration, and the seed of
-`sources` and the default `search_profile`. `job_postings.language` stores the
-output of `detect()`, typed `Literal["es", "en"]` in `domain/language.py`; a
-check constraint can mirror it (it needs `name=`, see below).
+**B5 · Get on Board.** The `JobSource` port, the adapter, a fixture and the
+mapping tests. See the B5 notes below.
 
 ## Pending
 
@@ -52,13 +62,35 @@ Decisions deferred to later blocks, and things worth knowing before them:
   merged: that is how B2 reached `main`. To test that direct pushes are
   rejected, push a commit that no PR covers.
 
-- **B4 · Hand-written migrations.** The Alembic post-write hook runs
-  `ruff check --fix`, which removes the unused `from alembic import op` and
-  `import sqlalchemy as sa` from an empty revision created without
-  `--autogenerate`. Add them back when writing the migration body.
-- **B4 · Check constraints need a name.** The naming convention in `models.py`
-  builds `ck_<table>_<name>`, so every `CheckConstraint` needs `name=`
-  (e.g. the `check (id = 1)` on `profile`).
+- **New migrations are numbered by hand.** `file_template` names revisions
+  `<rev>_<slug>.py` and Alembic has no sequence token, so create each one with
+  the next number: `uv run alembic revision --autogenerate --rev-id 002 -m
+  "..."`. Without `--rev-id` the file gets a random hash as its name; Alembic
+  still works, since it orders revisions by `down_revision`.
+- **The post-write hook.** It runs `ruff check --fix` before `ruff format`,
+  so it reports E501 on lines that the formatter then wraps; only what
+  `ruff check .` still reports afterwards matters (long string literals,
+  which have to be split by hand). In a revision created without
+  `--autogenerate`, `ruff check --fix` removes the unused
+  `from alembic import op` and `import sqlalchemy as sa`; add them back when
+  writing the body.
+- **What `alembic check` misses.** It compares server defaults only because
+  `migrations/env.py` sets `compare_server_default=True`, and it never compares
+  a check constraint's condition nor a partial index's `WHERE`.
+  `test_migrations.py` covers those two by comparing `pg_get_constraintdef()`
+  and `pg_indexes.indexdef` between the migrated database and one built with
+  `create_all()`.
+- **Check constraints need a name.** The naming convention in
+  `models/base.py` builds `ck_<table>_<name>`, so every `CheckConstraint`
+  needs `name=` (e.g. the `check (id = 1)` on `profile` in B11).
+- **Indexes with `DESC` are declared after the class**, from the mapped
+  column (`SyncRunRow.started_at.desc()`): written as `text("... DESC")`, the
+  naming convention silently leaves that column out of the index name.
+- **Integration tests need `TEST_DATABASE_URL`.** It is in `.env.example`;
+  without it in `.env`, the tests in `tests/integration` error. They drop and
+  recreate that database (and `<name>_models_test`) on every test, so its name
+  must end in `_test`. The fixtures live in `test_migrations.py`; move them to
+  `tests/integration/conftest.py` when B7 adds the first repository tests.
 - **B5 · Importing `tests/fakes.py`.** pytest runs with
   `--import-mode=importlib`, so test modules cannot import each other by
   default; `from tests.fakes import ...` will need extra configuration. For
@@ -77,6 +109,14 @@ Decisions deferred to later blocks, and things worth knowing before them:
   brackets, so `Senior Backend Engineer - Remote` and `... (Remote)` get two
   keys: a visible duplicate, not a lost posting (strict xfail in
   `test_normalize.py`).
+- **B7 · Priority lives in the database.** `sources.priority` is seeded and
+  unique, while the sketch in §5 sorts by a `SOURCE_PRIORITY` dict in Python.
+  Read it from `sources`, or the two will drift apart.
+- **B7 · What mypy does not check.** `JobPostingRow.language` is typed
+  `Language`, so mypy checks reads and attribute assignments, but not
+  constructor keywords nor the dicts given to `insert(...).values()`, which is
+  what the upsert uses. There, only the CHECK constraint stops a value other
+  than `'es'` or `'en'`.
 - **B8 · What the prefilter reads.** `description_md` keeps URLs written as
   link text: every WWR posting ends with
   `To apply: https://weworkremotely.com/remote-jobs/<slug>`, and the slug
@@ -87,11 +127,21 @@ Decisions deferred to later blocks, and things worth knowing before them:
   rolled back on close. Decide whether to commit once per request or explicitly
   in each use case, and whether `get_sessionmaker()` needs
   `expire_on_commit=False`.
+- **B9 · Changing the default profile.** A partial unique index allows a single
+  row with `is_default = true`: unset the current default before setting the
+  new one, in the same transaction.
 - **B10 · `.dockerignore`.** It is a denylist: add `web/node_modules` (and any
   other frontend build output) when `web/` appears.
+- **B11 · `applications.resume_version_id`.** It has no foreign key until
+  `resume_versions` exists. Add the constraint in the B11 migration and
+  `ForeignKey("resume_versions.id")` in `models/application.py` together, or
+  `alembic check` reports the difference.
 - **psycopg on the Windows host.** psycopg does not notice a refused connection
-  and waits for the full `connect_timeout` (3 s per address; `localhost`
-  resolves to two). In the Linux container it fails immediately. Root cause not
-  verified.
+  and waits for the full `connect_timeout` (3 s) per address. `localhost`
+  resolves to `::1` first, where compose publishes nothing, so every
+  connection to `localhost` took 3 s, successful ones included (B4 measured
+  70 s for the integration tests, 10 s with `127.0.0.1`). `.env.example` uses
+  `127.0.0.1`; an older `.env` that says `localhost` should be updated. In the
+  Linux container it fails immediately. Root cause not verified.
 - **No LICENSE.** Without one, nobody may reuse the code. `html2text` is
   GPL-3.0-or-later; MIT, Apache-2.0 and GPL-3.0 are all GPL-3.0-compatible.

@@ -45,6 +45,9 @@ jobs:
       # Steps run on the runner itself, where the service is published on
       # localhost:5432 (in compose, the api container reaches it as db:5432).
       DATABASE_URL: postgresql+psycopg://jobradar:local@localhost:5432/jobradar
+      # tests/integration drop and recreate this database (and
+      # jobradar_models_test) themselves; its name must end in _test.
+      TEST_DATABASE_URL: postgresql+psycopg://jobradar:local@localhost:5432/jobradar_test
 
     steps:
       # Actions are pinned to a commit SHA: a tag can be moved to other code, a SHA cannot.
@@ -67,4 +70,10 @@ jobs:
       # pyproject.toml, so CI and local runs would stop checking the same thing.
       - run: uv run mypy
       - run: uv run alembic upgrade head
+      # Compares the schema the migrations just built with the models, and
+      # fails on any difference: a model changed without a migration, or a
+      # migration without its model. Needs the database at head, hence after
+      # the upgrade. It does not compare check conditions nor partial index
+      # WHERE clauses; tests/integration/test_migrations.py covers those.
+      - run: uv run alembic check
       - run: uv run pytest
