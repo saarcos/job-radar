@@ -45,6 +45,9 @@ jobs:
       # Steps run on the runner itself, where the service is published on
       # localhost:5432 (in compose, the api container reaches it as db:5432).
       DATABASE_URL: postgresql+psycopg://jobradar:local@localhost:5432/jobradar
+      # tests/integration drop and recreate this database (and
+      # jobradar_models_test) themselves; its name must end in _test.
+      TEST_DATABASE_URL: postgresql+psycopg://jobradar:local@localhost:5432/jobradar_test
 
     steps:
       # Actions are pinned to a commit SHA: a tag can be moved to other code, a SHA cannot.
