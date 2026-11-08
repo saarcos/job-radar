@@ -67,4 +67,10 @@ jobs:
       # pyproject.toml, so CI and local runs would stop checking the same thing.
       - run: uv run mypy
       - run: uv run alembic upgrade head
+      # Compares the schema the migrations just built with the models, and
+      # fails on any difference: a model changed without a migration, or a
+      # migration without its model. Needs the database at head, hence after
+      # the upgrade. It does not compare check conditions nor partial index
+      # WHERE clauses; tests/integration/test_migrations.py covers those.
+      - run: uv run alembic check
       - run: uv run pytest
