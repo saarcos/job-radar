@@ -9,10 +9,13 @@ from jobradar.domain.language import detect
 @pytest.mark.parametrize(
     ("posting_id", "expected"),
     [
-        ("desarrollador-a-full-stack-financia-capital-santiago", "es"),
-        ("especialista-integracion-pleno-bci-santiago-f68d", "es"),
+        (
+            "semi-senior-full-stack-java-developer-qa-ai-bilingue-23people-santiago",
+            "es",
+        ),
+        ("junior-integrations-developer-inversiones-vertice-limitada-santiago", "es"),
         # Get on Board also lists postings written in English.
-        ("senior-software-engineer-vetclaims-ai-remote", "en"),
+        ("senior-full-stack-engineer-improving-remote", "en"),
     ],
 )
 def test_getonboard_posting(posting_id, expected, load_fixture):

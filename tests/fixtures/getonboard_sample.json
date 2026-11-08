@@ -1,259 +1,19 @@
 {
   "data": [
     {
-      "id": "desarrollador-a-full-stack-financia-capital-santiago",
+      "id": "semi-senior-full-stack-java-developer-qa-ai-bilingue-23people-santiago",
       "type": "job",
       "attributes": {
-        "title": "Desarrollador/a Full-Stack",
-        "description_headline": "Requerimientos del cargo",
-        "description": "<ul><li>Al menos 3 años de experiencia profesional con PHP y Laravel.</li><li>Experiencia desarrollando frontends con Vue.js.</li><li>Buen manejo de SQL y modelamiento de bases de datos relacionales (MySQL o SQL Server).</li><li>Experiencia construyendo y consumiendo APIs REST.</li><li>Manejo de Git y trabajo con ramas y pull requests.</li><li>Buena comunicación y capacidad de trabajar en equipo.</li><li>Autonomía, proactividad y ganas de aprender.</li></ul>",
-        "projects": "<p>Somos una empresa financiera que busca democratizar el acceso a financiamiento para pequeñas y medianas empresas. En Financia Capital estamos digitalizando nuestros procesos para que nuestros clientes gestionen sus operaciones financieras de forma simple, rápida y segura.</p><p>Te integrarás al equipo de TI y trabajarás en todo nuestro ecosistema: el backoffice interno, el portal de clientes, las APIs que conectan con nuestro sistema de factoring y los servicios de datos.</p>",
+        "title": "Semi Senior Full-Stack Java Developer (QA & AI) Bilingüe",
+        "description_headline": "Skills excluyentes",
+        "description": "<ul><li>Experiencia comprobable con Java y Spring Boot en proyectos reales.</li><li>Experiencia práctica trabajando con Angular.</li><li>Capacidad para realizar pruebas unitarias, de integración y de API en aplicaciones Java.</li><li>Uso diario de asistentes de programación basados en IA, como GitHub Copilot o similar.</li><li>Inglés fluido (Nivel B2+): Nivel suficiente para trabajar y comunicarse directamente con el equipo.</li></ul>",
+        "projects": "<div>Equifax es mucho más que una empresa de informes; es una compañía global líder en datos, analítica y tecnología con presencia en 24 países. En Chile, operan desde 1979 entregando soluciones críticas de ciberseguridad, identidad y riesgo a más de 14.000 empresas.</div><div>El Hub Tecnológico (SDC) Lo que hace única a esta oportunidad es que Chile alberga el Santiago Development Center (SDC). Este centro lidera la transformación digital de Equifax a nivel mundial, concentrando cerca del 60% de sus desarrollos tecnológicos globales.</div><div>Cultura y Visión Equifax promueve un entorno de colaboración y excelencia técnica, donde el talento local tiene el desafío de crear soluciones de impacto mundial. Su visión es clara: usar la data y la tecnología para potenciar la toma de decisiones financieras en todo el mundo.</div>",
         "functions_headline": "Funciones del cargo",
-        "functions": "<p>Dentro de tus principales funciones estarán:</p><ul><li>Desarrollar nuevos módulos y funcionalidades en nuestras plataformas Laravel + Vue, de punta a punta: modelo de datos, API, interfaz y despliegue.</li><li>Desarrollar y mantener servicios de datos en Python (FastAPI) desplegados en API Gateway AWS Lambda, que alimentan nuestras plataformas con información de clientes y evaluaciones.</li><li>Mantener y mejorar las plataformas existentes: corrección de errores, rendimiento y refactorización.</li><li>Integrar servicios externos (Servicio de Impuestos Internos, burós de crédito, bancos, CRM) y APIs internas.</li><li>Participar en revisiones de código (pull requests) y proponer mejoras técnicas y de arquitectura.</li><li>Colaborar con negocio y producto en la definición de requerimientos e interfaces.</li><li>Contribuir al logro de los objetivos y KPIs del equipo.</li></ul><p>Nuestro stack:</p><ul><li>Backend: PHP 8 / Laravel, Python / FastAPI, AdonisJS (Node.js + TypeScript).</li><li>Frontend: Vue.js, Inertia.js, Element UI / Element Plus, TailwindCSS, Vite.</li><li>Datos: MySQL, SQL Server, Redis.</li><li>Cloud: AWS (Lambda, S3, RDS, EC2, SNS), Cloudflare.</li><li>Herramientas: Git / GitHub, Sentry, Notion.</li></ul>",
-        "benefits_headline": "",
-        "benefits": "",
-        "desirable_headline": "Opcionales",
-        "desirable": "<p>Suma puntos si tienes:</p><ul><li>Experiencia con Python (FastAPI, pandas o SQLAlchemy) y despliegues serverless en AWS Lambda.</li><li>Experiencia con Inertia.js o Vue 3.</li><li>Experiencia con Node.js / TypeScript, idealmente AdonisJS.</li><li>Experiencia con otros servicios de AWS (S3, RDS, SNS).</li><li>Experiencia escribiendo tests (PHPUnit / Pest) y usando herramientas de calidad de código.</li><li>Experiencia en factoring, fintech o integraciones con el SII.</li><li>Portafolio o repositorios públicos (GitHub, GitLab, Bitbucket).</li></ul>",
-        "remote": false,
-        "remote_modality": "no_remote",
-        "remote_zone": null,
-        "countries": [
-          "Chile"
-        ],
-        "lang": "lang_not_specified",
-        "category_name": "Programming",
-        "perks": [
-          "health_coverage",
-          "computer_provided",
-          "informal_dresscode"
-        ],
-        "min_salary": 1700,
-        "max_salary": 2000,
-        "published_at": 1793133968,
-        "response_time_in_days": {
-          "min": null,
-          "max": null
-        },
-        "applications_count": 84,
-        "location_regions": {
-          "data": []
-        },
-        "location_tenants": {
-          "data": []
-        },
-        "location_cities": {
-          "data": [
-            {
-              "id": 1,
-              "type": "location_city"
-            }
-          ]
-        },
-        "modality": {
-          "data": {
-            "id": 1,
-            "type": "modality"
-          }
-        },
-        "seniority": {
-          "data": {
-            "id": 3,
-            "type": "seniority"
-          }
-        },
-        "tags": {
-          "data": [
-            {
-              "id": 22,
-              "type": "tag"
-            },
-            {
-              "id": 53,
-              "type": "tag"
-            },
-            {
-              "id": 64,
-              "type": "tag"
-            },
-            {
-              "id": 102,
-              "type": "tag"
-            },
-            {
-              "id": 135,
-              "type": "tag"
-            },
-            {
-              "id": 76103,
-              "type": "tag"
-            }
-          ]
-        },
-        "company": {
-          "data": {
-            "id": "financia-capital-cl",
-            "type": "company",
-            "attributes": {
-              "name": "Financia Capital",
-              "description": "La forma más simple y efectiva de obtener liquidez para su empresa",
-              "long_description": "",
-              "projects": "<p>&nbsp;En <strong>Financia Capital</strong> trabajamos para fortalecer el factoring y las soluciones financieras a través de procesos tecnológicos seguros y eficientes.<br> Nuestro equipo de <strong>TI</strong> integra desarrollo, datos, soporte e infraestructura, colaborando estrechamente para mantener la continuidad operativa y mejorar la experiencia de las distintas áreas de la empresa.&nbsp;</p><p>Buscamos un <strong>Jefe de Infraestructura y Ciberseguridad</strong> que lidere al equipo interno de soporte, asegurando que nuestra infraestructura tecnológica funcione con estabilidad, rendimiento y seguridad.<br> El rol está enfocado en la <strong>gestión operativa y técnica del entorno interno</strong>, abarcando redes, usuarios, accesos, políticas de seguridad y equipamiento crítico, además de coordinar tareas con proveedores externos cuando sea necesario.&nbsp;</p><p>Reportarás directamente al <strong>CTO</strong>, participando en decisiones técnicas del área, estableciendo procesos, definiendo estándares de seguridad y ejecutando proyectos de mejora que impactan en toda la organización.&nbsp;</p>",
-              "benefits": "<ul><li>&nbsp;Contrato indefinido.</li><li>Modalidad Presencial.</li><li>Acceso a proyectos desafiantes y de alto impacto real en el negocio.</li><li>Participación activa en decisiones técnicas de productos en crecimiento.</li><li>Espacio para aprender y crecer junto al equipo.&nbsp;</li></ul>",
-              "web": "https://www.financiacapital.cl",
-              "twitter": "",
-              "github": "",
-              "facebook": "",
-              "angellist": "",
-              "country": "CL",
-              "response_time_in_days": {
-                "min": 8,
-                "max": 20
-              },
-              "logo": "https://getonbrd-prod.s3.amazonaws.com/uploads/users/logo/12324/Recurso_1_300x-100.jpg"
-            }
-          }
-        }
-      },
-      "links": {
-        "public_url": "https://www.getonbrd.com/jobs/desarrollador-a-full-stack-financia-capital-santiago"
-      }
-    },
-    {
-      "id": "senior-software-engineer-vetclaims-ai-remote",
-      "type": "job",
-      "attributes": {
-        "title": "Senior Software Engineer",
-        "description_headline": "What we're looking for",
-        "description": "<ul><li>5+ years building production web applications, with real ownership of systems on both frontend and backend.</li><li>Strong TypeScript, Next.js, Prisma and Postgres. You understand the server/client boundary, caching, and how schema and query design affect the product.</li><li>You work with AI agents as a lead, not a typist. You run several agents on real work, know where they fail, and catch what they get wrong before it ships.</li><li>You've improved an agent harness at your current job: better context, tools, rules, review loops or evals that measurably changed agent output. Tell us what you changed and what it fixed.</li><li>You're curious about how your role is changing with AI, and you have opinions about it.</li><li>You're comfortable with non-technical stakeholders. You can ask the right questions, push back on the wrong solution and explain trade-offs in plain language.</li><li>Good technical taste: you prefer simple, boring solutions and delete code as readily as you write it.</li><li>Professional English for daily written and spoken work.</li></ul>",
-        "projects": "<p><strong>The role</strong></p><p>We're hiring a Senior Software Engineer who works like a tech lead for a team of AI agents. You own problems end to end: you sit with the people who have them, decide what to build, direct agents to do much of the implementation, and stay accountable for what ships. Code is cheap now. Judgment isn't. We care less about how many lines you write and more about whether you can tell good output from plausible output, design contracts that hold up, and say no to complexity the problem doesn't need. Our stack is full-stack TypeScript: Next.js, Prisma and Postgres, running on Google Cloud. Location: Remote. Time-zone overlap: CST. Compensation: USD 6.000 per month</p>",
-        "functions_headline": "What you'll do",
-        "functions": "<ul><li>Work directly with PMs and the company's departments to understand their problems, then turn them into scoped, shippable solutions.</li><li>Build features across the stack: Next.js (App Router, Server Components, Server Actions), Prisma and Postgres.</li><li>Orchestrate several AI coding agents in parallel. Break work down, write the specs and context they need, review their output critically and own the result.</li><li>Improve our agent harness: the prompts, tools, context, guardrails and evals that make agents reliable on our codebase.</li><li>Design the contracts between frontend and backend, and keep them stable as the product evolves.</li><li>Review code, human or AI-written, with a focus on authorization, data integrity, payments and privacy.</li><li>Help shape how our engineering team works as AI changes what an engineer's day looks like.</li></ul>",
-        "benefits_headline": "Benefits and how we communicate",
-        "benefits": "<p>15 PTO days + your country holidays + Sick days </p><p>Good communication is non-negotiable for us. We love communication, and we dislike meetings that could have been a Slack message.</p><ul><li><strong>Async first.</strong> Most of our work happens in writing. When async isn't enough, we jump on a quick huddle instead of letting a thread drag on.</li><li><strong>Share progress often.</strong> Post updates, blockers and decisions without being asked. If we have to ask how things are going, that's a bad sign.</li><li><strong>Write clearly.</strong> Your messages should give the reader enough context to act without a follow-up question.</li></ul>",
-        "desirable_headline": "Nice to have",
-        "desirable": "<ul><li>Infrastructure experience isn't required, but it helps.</li><li>Google Cloud (Cloud Run, Cloud SQL, IAM, Secret Manager) or comparable AWS experience.</li><li>Experience in regulated or privacy-sensitive domains: health, legal, insurance or government benefits.</li></ul>",
-        "remote": true,
-        "remote_modality": "fully_remote",
-        "remote_zone": null,
-        "countries": [
-          "Remote"
-        ],
-        "lang": "en",
-        "category_name": "Programming",
-        "perks": [
-          "remote_full",
-          "flexible_hours",
-          "informal_dresscode",
-          "vacation_over_legal"
-        ],
-        "min_salary": 6000,
-        "max_salary": 6000,
-        "published_at": 1792872188,
-        "response_time_in_days": {
-          "min": 0,
-          "max": 2
-        },
-        "applications_count": 681,
-        "location_regions": {
-          "data": []
-        },
-        "location_tenants": {
-          "data": []
-        },
-        "location_cities": {
-          "data": []
-        },
-        "modality": {
-          "data": {
-            "id": 1,
-            "type": "modality"
-          }
-        },
-        "seniority": {
-          "data": {
-            "id": 4,
-            "type": "seniority"
-          }
-        },
-        "tags": {
-          "data": [
-            {
-              "id": 51,
-              "type": "tag"
-            },
-            {
-              "id": 225,
-              "type": "tag"
-            },
-            {
-              "id": 259,
-              "type": "tag"
-            },
-            {
-              "id": 355,
-              "type": "tag"
-            },
-            {
-              "id": 762,
-              "type": "tag"
-            },
-            {
-              "id": 1471,
-              "type": "tag"
-            },
-            {
-              "id": 1696,
-              "type": "tag"
-            },
-            {
-              "id": 2371,
-              "type": "tag"
-            }
-          ]
-        },
-        "company": {
-          "data": {
-            "id": "vetclaims-ai",
-            "type": "company",
-            "attributes": {
-              "name": "Vetclaims.ai",
-              "description": "VetClaims AI helps U.S. veterans prepare the documentation for their VA disability claims. About 8,000 veterans a month rely on us, and around 400 people at the company depend on the systems our engineering team builds. The data we handle is personal and ",
-              "long_description": "",
-              "projects": null,
-              "benefits": "<p>15 PTO days + your country holidays + Sick days <br><br>Good communication is non-negotiable for us. We love communication, and we dislike meetings that could have been a Slack message.</p><ul><li><strong>Async first.</strong> Most of our work happens in writing. When async isn't enough, we jump on a quick huddle instead of letting a thread drag on.</li><li><strong>Share progress often.</strong> Post updates, blockers and decisions without being asked. If we have to ask how things are going, that's a bad sign.</li><li><strong>Write clearly.</strong> Your messages should give the reader enough context to act without a follow-up question.</li></ul><p><br></p>",
-              "web": "http://vetclaims.ai",
-              "twitter": null,
-              "github": null,
-              "facebook": null,
-              "angellist": null,
-              "country": "US",
-              "response_time_in_days": {
-                "min": 0,
-                "max": 2
-              },
-              "logo": "https://getonbrd-prod.s3.amazonaws.com/uploads/users/logo/20901/alogovet.jpeg"
-            }
-          }
-        }
-      },
-      "links": {
-        "public_url": "https://www.getonbrd.com/jobs/senior-software-engineer-vetclaims-ai-remote"
-      }
-    },
-    {
-      "id": "especialista-integracion-pleno-bci-santiago-f68d",
-      "type": "job",
-      "attributes": {
-        "title": "Especialista Integración Pleno",
-        "description_headline": "Para tener éxito en esta posición necesitas:",
-        "description": "<ul><li>Experiencia en Java, mínimo 4 años, con conocimiento de Java 8 o superior.</li><li>Experiencia mínima 2 años en desarrollo y diseño de Microservicios.</li><li>Experiencia integrando Web Services SOAP.</li><li>Conocimientos de diseño de Apis / Restful.</li><li>Experiencia en Spring Boot, y conocimiento sólido en el framework Spring.</li><li>Conocimientos básicos de tecnologías en la nube.</li></ul>",
-        "projects": "<p>Diseñar e implementar los microservicios y APIs que permiten habilitar la plataforma de Integración del banco, con el fin de dar soporte al proceso de transformación digital en Bci, permitiendo que la corporación pueda contar con una plataforma basada en componentes independientes, autónomos y escalables, entregados de forma rápida y oportuna, con foco en la excelencia y utilización óptima de recursos.</p><p>Diseñar e implementar los microservicios y APIs que permiten habilitar la plataforma de Integración del banco, con el fin de dar soporte al proceso de transformación digital en Bci, permitiendo que la corporación pueda contar con una plataforma basada en componentes independientes, autónomos y escalables, entregados de forma rápida y oportuna, con foco en la excelencia y utilización óptima de recursos.</p>",
-        "functions_headline": "En este rol tendrás la oportunidad de:",
-        "functions": "<ul><li>Implementar APIs y microservicios en los distintos proyectos/programas de Transformación Digital, basados en un modelo de referencia para servicios financieros y en estándares de la industria, que posteriormente pasarán a formar parte del catálogo de microservicios del banco.Permitir que nuevos productos y servicios puedan ser entregados de forma ágil, poniendo énfasis en la reutilización de componentes.</li><li>Proveer APIS y microservicios tanto para nuestros clientes internos como externos.</li><li>Participar en la co-creación de un gobierno robusto(procesos, roles, tecnología) que permita entregar en tiempo, forma y calidad los microservicios a nuestros clientes.</li><li>Ser un referente técnico de APIs y microservicios.</li><li>Generar y difundir conocimiento al interior del banco, con el fin de mejorar la competitividad y lograr diferenciación, apropiándose del plan de carrera que permita el desarrollo personal y profesional, de manera que se genere un entorno de motivación y crecimiento laboral de él y de sus pares.</li><li>Resguardar la calidad en el diseño, implementación y rendimiento óptimo de las APIs y microservicios, cumpliendo oportunamente los compromisos del proyecto.</li><li>Adoptar las prácticas de Delivery Continuo.</li><li>Optimizar los tiempos de paso a producción realizando entregas continuas para los clientes internos y externos. Con foco en mejorar el time-to-value y lograr eficiencias mediante la disminución de los esfuerzos de certificación.</li></ul>",
-        "benefits_headline": "Beneficios:",
-        "benefits": "",
-        "desirable_headline": "Es aún mejor si tienes:",
-        "desirable": "<ul><li>Certificación Java OCP Oracle Certified Professional (altamente deseable).</li><li>Haber trabajado con metodologías ágiles.</li><li>Kubernetes Básico.</li></ul>",
+        "functions": "<p>El Semi Senior Full Stack Developer se integrará al equipo \"Credit Health\", participando en todo el ciclo de vida del desarrollo, desde el diseño hasta la puesta en producción. Construirá soluciones end-to-end utilizando Java, Spring Boot y Angular, apoyándose en IA y siendo guiado por su líder. Automatizará pruebas para asegurar la calidad de cada entrega y colaborará diariamente con el equipo en inglés fluido.</p>",
+        "benefits_headline": "Beneficios",
+        "benefits": "<ul><li><strong>Seguro complementario</strong>: Seguro de salud, vida y dental, para que estés protegido.</li><li><strong>Curso de inglés</strong>: En nuestro programa de formación en el idioma, ofrecemos dos modalidades para adaptarnos a tus necesidades y objetivos, con profesores nativos.</li><li><strong>Reembolso de certificaciones internacionales</strong>: Apoyamos el crecimiento profesional, por lo que te reembolsamos el costo de un examen de certificación internacional que quieras realizar.</li><li><strong>Bono de vacaciones</strong>: Recibe una compensación económica por cada semana de vacaciones que tomes. </li><li><strong>Aguinaldos en fiestas patrias y Navidad</strong>: Un bono en septiembre y en diciembre, para que la pases bien con tu familia. </li><li><strong>Día libre de cumpleaños</strong>: Puedes tomarlo el día previo, el mismo día, o el posterior a tu cumpleaños. </li><li><strong>Mejora tu espacio de trabajo:</strong> Te reembolsamos parte del costo de equipar tu home office para que trabajes cómodo y a gusto. </li><li><strong>Betterfly:</strong> App de bienestar que premia tus hábitos saludables con telemedicina, psicología y nutrición, sin costo. </li></ul>",
+        "desirable_headline": "Skills deseables",
+        "desirable": "<ul><li>Automatización de pruebas de interfaz de usuario (UI) con Playwright, Selenium o Cypress.</li><li>Experiencia ejecutando pruebas de regresión y pruebas de humo (\"smoke testing\").</li><li>Experiencia aportando valor de principio a fin (end-to-end) mediante el uso de IA en áreas Dev, QE y SRE.</li><li>Experiencia en metodologías SRE y creación de frameworks de pruebas desde cero.</li></ul><p><strong>¿Qué ofrecemos?</strong></p><p><strong>Rango salarial: $2.800.000 - $3.000.000 CLP líquidos.</strong></p><p><strong>Modalidad: Híbrido (3 días en la oficina y 2 días de Home Office).</strong></p><p><strong>Horario: 09:00 a 18:00 hrs (Horario Canadá).</strong></p><p><strong>Contrato: Proyecto inicial de 8 meses, con posible extensión.</strong></p>",
         "remote": false,
         "remote_modality": "hybrid",
         "remote_zone": null,
@@ -263,14 +23,14 @@
         "lang": "lang_not_specified",
         "category_name": "Programming",
         "perks": [],
-        "min_salary": 3500,
-        "max_salary": 4000,
-        "published_at": 1792605728,
+        "min_salary": 2800,
+        "max_salary": 3000,
+        "published_at": 1794023227,
         "response_time_in_days": {
           "min": null,
           "max": null
         },
-        "applications_count": 102,
+        "applications_count": 31,
         "location_regions": {
           "data": []
         },
@@ -293,8 +53,12 @@
         },
         "seniority": {
           "data": {
-            "id": 3,
-            "type": "seniority"
+            "id": "3",
+            "type": "seniority",
+            "attributes": {
+              "name": "Semi Senior",
+              "locale_key": "semi_senior"
+            }
           }
         },
         "tags": {
@@ -304,64 +68,327 @@
               "type": "tag"
             },
             {
-              "id": 156,
-              "type": "tag"
-            },
-            {
-              "id": 167,
-              "type": "tag"
-            },
-            {
-              "id": 235,
-              "type": "tag"
-            },
-            {
               "id": 587,
               "type": "tag"
             },
             {
-              "id": 4516,
+              "id": 104,
               "type": "tag"
             },
             {
-              "id": 37257,
+              "id": 888,
+              "type": "tag"
+            },
+            {
+              "id": 863,
+              "type": "tag"
+            },
+            {
+              "id": 2754,
+              "type": "tag"
+            },
+            {
+              "id": 1589,
+              "type": "tag"
+            },
+            {
+              "id": 8508,
               "type": "tag"
             }
           ]
         },
         "company": {
           "data": {
-            "id": "bci",
+            "id": "23people-cl",
             "type": "company",
             "attributes": {
-              "name": "Bci",
-              "description": "Bci es una Corporación de Soluciones Financieras que aspira a ser líder regional en Innovación, Cercanía y Experiencia de Clientes, y ser reconocida como el mejor lugar para trabajar y desarrollarse. ",
-              "long_description": "<p>En Bci nos atrevemos… Queremos ser líderes regionales en innovación, cercanía, experiencia cliente y ser reconocidos como la mejor empresa para trabajar y desarrollarse. Desde nuestra fundación en 1937, nacimos con la misión de apoyar a los emprendedores, con una fuerte pasión por simplificar, facilitar y aportar a la vida y la experiencia de miles de clientes y colaboradores, y de contribuir a las comunidades en que nos desenvolvemos. Tenemos una amplia variedad de cargos y prácticas profesionales para que puedas desplegar tu talento, en un contexto de aprendizaje continuo, entretenido, diverso y desafiante… ¿Te atreves a hacer una diferencia? </p>",
-              "projects": "<p>¿Te atreves a hacer una diferencia en la industria financiera? En Bci estamos cambiando la forma de hacer banca y queremos que tú seas protagonista de esta reinvención.<br>La principal misión del cargo será ser protagonista en la administración e ingesta de datos que impulsan las plataformas y procesos de Gestión de Personas. En este rol serás responsable de integrar, limpiar y transformar datos, asegurando la integridad, continuidad y confidencialidad de la información.</p>",
-              "benefits": "<p>• Título profesional en Psicología, Ingeniería, Recursos Humanos o carrera afín.• Experiencia mínima de 4 años en diseño e implementación de experiencias formativas• Inglés oral y escrito intermedio-avanzado• Experiencia comprobada trabajando con áreas del negocio en roles de consultoría interna.• Manejo y administración de plataformas LMS/LXP.• Experiencia en gestión de proveedores y coordinación de programas de capacitación.• Habilidades para gestionar múltiples proyectos en simultáneo, con foco en cumplimiento y calidad.• Alta orientación al trabajo colaborativo, pensamiento crítico y mejora continua.• Perfil autónomo, proactivo, metódico y con fuerte compromiso con los resultados.</p>",
-              "web": "http://www.trabajaenbci.cl",
-              "twitter": "trabajaenbci",
+              "name": "23people",
+              "description": "Básicamente, somos un grupo de geeks apasionados por lo que hacemos: programar y resolver problemas usando tecnología. 🤟",
+              "long_description": "<div><strong> En 23people ayudamos a nuestros clientes a digitalizar sus servicios, siempre con las personas en el centro. <br></strong><br></div><div>¿<strong>Cómo lo hacemos?<br></strong><br></div><ul><li><strong>Trabajo sustentable: </strong>cuidamos cómo trabajamos y a quienes lo hacen con nosotros y sí, incluso si es en modalidad <em>outsourcing. </em></li><li><strong>Agilidad de verdad: </strong>nos adaptamos rápido, entregamos valor desde el día uno y mejoramos tooodo el tiempo. </li><li><strong>Tecnología con criterio: </strong>la usamos de forma eficiente y creativa, y eso nos empuja a seguir creciendo profesionalmente. </li></ul><div>💜 ¡<strong>Nos encanta lo que hacemos!<br></strong><br></div><p>Somos especialistas JavaScript Fullstack en general. Creemos que DevOps es una forma de trabajo que debe estar siempre presente tal de lograr Continuous Delivery. Trabajamos con tecnologías de Front-end tales como ReactJS y Angular, Servicios Cloud de Amazon, Azure y Google. También trabajamos en app mobile nativas y en Progressive Web App. Tenemos también bastante experiencia en las tecnologías y frameworks asociados a JAVA y .NET.</p><p>One more thing… <strong>Somos una empresa del gremio MITI: ¡Mejor Industria TI en Chile!😎</strong></p>",
+              "projects": "<div>Equifax es mucho más que una empresa de informes; es una compañía global líder en datos, analítica y tecnología con presencia en 24 países. En Chile, operan desde 1979 entregando soluciones críticas de ciberseguridad, identidad y riesgo a más de 14.000 empresas.</div><div>El Hub Tecnológico (SDC) Lo que hace única a esta oportunidad es que Chile alberga el Santiago Development Center (SDC). Este centro lidera la transformación digital de Equifax a nivel mundial, concentrando cerca del 60% de sus desarrollos tecnológicos globales.</div><div>Cultura y Visión Equifax promueve un entorno de colaboración y excelencia técnica, donde el talento local tiene el desafío de crear soluciones de impacto mundial. Su visión es clara: usar la data y la tecnología para potenciar la toma de decisiones financieras en todo el mundo.</div>",
+              "benefits": "<ul><li><strong>Seguro complementario</strong>: Seguro de salud, vida y dental, para que estés protegido.</li><li><strong>Curso de inglés</strong>: En nuestro programa de formación en el idioma, ofrecemos dos modalidades para adaptarnos a tus necesidades y objetivos, con profesores nativos.</li><li><strong>Reembolso de certificaciones internacionales</strong>: Apoyamos el crecimiento profesional, por lo que te reembolsamos el costo de un examen de certificación internacional que quieras realizar.</li><li><strong>Bono de vacaciones</strong>:&nbsp; Recibe una compensación económica por cada semana de vacaciones que tomes.&nbsp;</li><li><strong>Aguinaldos en fiestas patrias y Navidad</strong>:&nbsp; Un bono en septiembre y en diciembre, para que la pases bien con tu familia.&nbsp;</li><li><strong>Día libre de cumpleaños</strong>:&nbsp; Puedes tomarlo el día previo, el mismo día, o el posterior a tu cumpleaños.&nbsp;</li><li>&nbsp;<strong>Mejora tu espacio de trabajo:</strong> Te reembolsamos parte del costo de equipar tu home office para que trabajes cómodo y a gusto.&nbsp;</li><li>&nbsp; <strong>Betterfly:</strong> App de bienestar que premia tus hábitos saludables con telemedicina, psicología y nutrición, sin costo.&nbsp;</li></ul>",
+              "web": "https://www.23people.io",
+              "twitter": "",
               "github": "",
-              "facebook": "trabajaenbci",
+              "facebook": "23people",
               "angellist": "",
               "country": "CL",
               "response_time_in_days": {
-                "min": 29,
-                "max": 39
+                "min": 0,
+                "max": 12
               },
-              "logo": "https://getonbrd-prod.s3.amazonaws.com/uploads/users/logo/3125/logobci200x200.jpg"
+              "logo": "https://getonbrd-prod.s3.amazonaws.com/uploads/users/logo/4457/Foto_perfil_Tiktok.png"
             }
           }
         }
       },
       "links": {
-        "public_url": "https://www.getonbrd.com/jobs/especialista-integracion-pleno-bci-santiago-f68d"
+        "public_url": "https://www.getonbrd.com/jobs/semi-senior-full-stack-java-developer-qa-ai-bilingue-23people-santiago"
+      }
+    },
+    {
+      "id": "senior-full-stack-engineer-improving-remote",
+      "type": "job",
+      "attributes": {
+        "title": "Senior Full-Stack Engineer",
+        "description_headline": "What we’re looking for",
+        "description": "<ul><li>5+ years of experience as a full-stack engineer and/or front-end engineer.</li><li>Hands-on experience with React and back-end development, including Java services and APIs.</li><li>Experience with Azure DevOps.</li><li>Comfort working under deadlines and adapting as project requirements evolve.</li><li>Strong verbal and written communication with team members and clients.</li><li>Collaborative mindset—willing to voice opinions and suggest improvements respectfully.</li></ul><p>We value engineers who can own problems end to end: from proposing the right approach, to reviewing code, to helping ensure stable production releases. If you enjoy working across front-end and back-end responsibilities and you bring clear, respectful communication, we’d love to meet you.</p>",
+        "projects": "We are Improving, an IT services firm focused on AI, Data, and Applications. We modernize legacy systems, build cloud-native platforms, and deliver future-ready solutions through collaborative, long-term partnerships that drive measurable outcomes. In this role, we help teams build modern, dynamic experiences across the stack—connecting a React front end with back-end services and APIs that integrate cleanly end to end. You will work in a cross-functional delivery environment where code quality, reliable releases to production, and continuous improvement are central to how we deliver outcomes for our stakeholders.",
+        "functions_headline": "What we need you to do",
+        "functions": "<ul><li>Build modern, dynamic front-end experiences using React.</li><li>Develop back-end services and APIs to integrate cleanly across the stack.</li><li>Design solutions, propose approaches, and troubleshoot issues on the front end.</li><li>Participate in code reviews and support releases to production.</li><li>Collaborate with team members and stakeholders to align implementation with evolving project requirements.</li></ul>",
+        "benefits_headline": "Benefits",
+        "benefits": "<ul><li>Contrato a largo plazo.</li><li>100% remoto.</li><li>Vacaciones y PTOs.</li><li>Posibilidad de recibir 2 bonos al año.</li><li>2 revisiones salariales al año.</li><li>Clases de inglés.</li><li>Equipamiento Apple.</li><li>Plataforma de cursos en línea.</li><li>Budget para compra de libros.</li><li>Budget para compra de materiales de trabajo.</li></ul><p>At Improving, we also emphasize a culture of teamwork, excellence, and fun, with open communication, personal growth, and shared rewards.</p>",
+        "desirable_headline": "Nice to have",
+        "desirable": "<ul><li>.NET experience (helpful because we may work across Java &amp; .NET services).</li></ul>",
+        "remote": true,
+        "remote_modality": "remote_local",
+        "remote_zone": null,
+        "countries": [
+          "Remote"
+        ],
+        "lang": "en",
+        "category_name": "Programming",
+        "perks": [
+          "computer_provided",
+          "vacation_over_legal"
+        ],
+        "min_salary": null,
+        "max_salary": null,
+        "published_at": 1793732847,
+        "response_time_in_days": {
+          "min": null,
+          "max": null
+        },
+        "applications_count": 162,
+        "location_regions": {
+          "data": []
+        },
+        "location_tenants": {
+          "data": [
+            {
+              "id": 3,
+              "type": "location_tenant"
+            },
+            {
+              "id": 7,
+              "type": "location_tenant"
+            },
+            {
+              "id": 24,
+              "type": "location_tenant"
+            },
+            {
+              "id": 2,
+              "type": "location_tenant"
+            }
+          ]
+        },
+        "location_cities": {
+          "data": []
+        },
+        "modality": {
+          "data": {
+            "id": 1,
+            "type": "modality"
+          }
+        },
+        "seniority": {
+          "data": {
+            "id": "4",
+            "type": "seniority",
+            "attributes": {
+              "name": "Senior",
+              "locale_key": "senior"
+            }
+          }
+        },
+        "tags": {
+          "data": [
+            {
+              "id": 123,
+              "type": "tag"
+            },
+            {
+              "id": 2,
+              "type": "tag"
+            },
+            {
+              "id": 36857,
+              "type": "tag"
+            },
+            {
+              "id": 874,
+              "type": "tag"
+            },
+            {
+              "id": 1150,
+              "type": "tag"
+            },
+            {
+              "id": 225,
+              "type": "tag"
+            },
+            {
+              "id": 1696,
+              "type": "tag"
+            }
+          ]
+        },
+        "company": {
+          "data": {
+            "id": "improving",
+            "type": "company",
+            "attributes": {
+              "name": "Improving",
+              "description": "Improving is an IT services firm focused on AI, Data, and Applications. We modernize legacy systems, build cloud-native platforms, and deliver future-ready solutions through collaborative, long-term partnerships that drive measurable outcomes.",
+              "long_description": "<p>Improving is dedicated to creating and fostering a great work culture that exemplifies teamwork, excellence, and fun. We believe this inspires and motivates everyone while building lifelong relationships. Improving has long supported the Conscious Capitalism movement. We work to serve the interests of all our stakeholders, building trust along the way.</p><p>Providing an exceptional work culture is at the forefront of everything we do. By creating an environment that fosters joy, we believe our people will feel inspired and motivated, while also building strong personal and professional relationships. At Improving, our optimistic approach to open communication, personal growth, and shared rewards has led to our sustainable success. At the heart of Improving is our set of core values.</p>",
+              "projects": "<div>En Improving South America, brindamos servicios de TI para transformar la percepción del profesional de TI. Nos enfocamos en consultoría de TI, desarrollo de software y formación ágil.&nbsp;</div><div>La empresa promueve una cultura de trabajo excepcional basada en el trabajo en equipo, la excelencia y la diversión, con enfoque en crecimiento personal y recompensas compartidas. Al integrarse, el/la candidato/a formará parte de una comunidad que prioriza la comunicación abierta y relaciones laborales sólidas a largo plazo, respaldada por una estructura de desarrollo profesional y aprendizaje continuo.</div>",
+              "benefits": "<ul><li>Contrato a largo plazo.</li><li>100% Remoto.</li><li>Vacaciones y PTOs</li><li>Posibilidad de recibir 2 bonos al año.</li><li>2 revisiones salariales al año.</li><li>Clases de inglés.</li><li>Equipamiento Apple.</li><li>Plataforma de cursos en linea</li><li>Budget para compra de libros.</li><li>Budget para compra de materiales de trabajo</li><li>mucho mas..</li></ul>",
+              "web": "https://www.improving.com/",
+              "twitter": "ImprovingSAM",
+              "github": "improving",
+              "facebook": "improvingdallas",
+              "angellist": "",
+              "country": "US",
+              "response_time_in_days": {
+                "min": 12,
+                "max": 26
+              },
+              "logo": "https://getonbrd-prod.s3.amazonaws.com/uploads/users/logo/4161/improving-splash-200px.png"
+            }
+          }
+        }
+      },
+      "links": {
+        "public_url": "https://www.getonbrd.com/jobs/senior-full-stack-engineer-improving-remote"
+      }
+    },
+    {
+      "id": "junior-integrations-developer-inversiones-vertice-limitada-santiago",
+      "type": "job",
+      "attributes": {
+        "title": "Junior Integrations Developer",
+        "description_headline": "Requisitos",
+        "description": "<p>Se requiere:</p><ul><li>Al menos una experiencia real integrando el ERP de una empresa con otro sistema o plataforma.</li><li>Uso habitual de asistentes de código para programar (Claude Code, Codex, Cursor u otro).</li><li>Experiencia con TypeScript.</li><li>Inglés avanzado para comunicarse con equipos técnicos en Estados Unidos.</li></ul>",
+        "projects": "<p>Inversiones Vertice Limitada es una empresa de innovación dedicada al desarrollo de productos de fiesta para el mercado nacional y también distribuidores en varios países. Actualmente estamos construyendo agentes de IA para el comercio de productos personalizados, conectados con los sistemas de gestión de proveedores y plataformas de terceros. Nuestro equipo está enfocado en entregar soluciones escalables, con visión internacional y oportunidades de aprendizaje continuo. Buscamos un desarrollador con experiencia en integraciones que se una al equipo para colaborar en la conexión con sistemas de gestión (ERP), APIs y servicios web de terceros, y automatización de procesos.</p>",
+        "functions_headline": "Funciones del cargo",
+        "functions": "<p>La persona se integrará al equipo de IA, trabajando junto a los desarrolladores de la empresa, y en contacto con equipos técnicos de clientes y proveedores en Estados Unidos. Sus principales funciones serán:</p><ul><li>Integrar agentes de IA con sistemas de gestión (ERP) y plataformas de terceros, mediante APIs y servicios web (REST, SOAP/XML).</li><li>Automatizar procesos en sistemas que no ofrecen APIs, por ejemplo con automatización de navegador.</li><li>Asegurar que las integraciones sean confiables: manejo de errores, reintentos, prevención de duplicados y monitoreo.</li><li>Probar las integraciones junto a los equipos técnicos de los proveedores y documentar cómo operarlas y extenderlas.</li></ul>",
+        "benefits_headline": "Condiciones",
+        "benefits": "<p>Formarás parte de un equipo de IA con visión de proyección internacional, trabajando en un rol totalmente presencial y clave para conectar agentes de inteligencia artificial con los sistemas de clientes y proveedores en Estados Unidos.</p><p>Te integrarás directamente en proyectos de integración de sistemas, automatización de procesos y agentes de IA, con oportunidades reales de aprendizaje y crecimiento profesional dentro del equipo.</p><p>Este es un puesto ideal para quienes buscan un ambiente de trabajo retador, colaborativo y con enfoque en la innovación tecnológica aplicada.</p>",
+        "desirable_headline": "Habilidades deseables",
+        "desirable": "<p>Se valorará:</p><ul><li>Experiencia con Vercel AI SDK o con el desarrollo de agentes de IA.</li><li>Integraciones mediante servicios web SOAP/XML.</li><li>Automatización de navegador o RPA (Playwright, Selenium u otros).</li><li>Experiencia con ERP usados en Estados Unidos, como NetSuite, Sage, SAP u otros.</li><li>Conocimientos en C#/.NET.</li></ul>",
+        "remote": false,
+        "remote_modality": "no_remote",
+        "remote_zone": null,
+        "countries": [
+          "Chile"
+        ],
+        "lang": "en",
+        "category_name": "Programming",
+        "perks": [],
+        "min_salary": 1000,
+        "max_salary": 1400,
+        "published_at": 1792443768,
+        "response_time_in_days": {
+          "min": null,
+          "max": null
+        },
+        "applications_count": 105,
+        "location_regions": {
+          "data": []
+        },
+        "location_tenants": {
+          "data": []
+        },
+        "location_cities": {
+          "data": [
+            {
+              "id": 1,
+              "type": "location_city"
+            }
+          ]
+        },
+        "modality": {
+          "data": {
+            "id": 1,
+            "type": "modality"
+          }
+        },
+        "seniority": {
+          "data": {
+            "id": "2",
+            "type": "seniority",
+            "attributes": {
+              "name": "Junior",
+              "locale_key": "junior"
+            }
+          }
+        },
+        "tags": {
+          "data": [
+            {
+              "id": 42793,
+              "type": "tag"
+            },
+            {
+              "id": 54,
+              "type": "tag"
+            },
+            {
+              "id": 843,
+              "type": "tag"
+            },
+            {
+              "id": 286,
+              "type": "tag"
+            },
+            {
+              "id": 259,
+              "type": "tag"
+            },
+            {
+              "id": 1658,
+              "type": "tag"
+            },
+            {
+              "id": 4104,
+              "type": "tag"
+            }
+          ]
+        },
+        "company": {
+          "data": {
+            "id": "inversiones-vertice-limitada",
+            "type": "company",
+            "attributes": {
+              "name": "Inversiones Vertice Limitada",
+              "description": "Somos una empresa de innovacion dedicada al desarrollo de productos de fiesta para mercado nacional y ademas distribuidores en varios paises",
+              "long_description": "",
+              "projects": "<p>Inversiones Vertice Limitada es una empresa de innovación dedicada al desarrollo de productos de fiesta para el mercado nacional y también distribuidores en varios países. Actualmente estamos construyendo una plataforma de cotización y creación de productos impulsada por IA y un backend sólido que integre servicios de IA, bases de datos y APIs modernas. Nuestro equipo está enfocado en entregar soluciones escalables, con visión internacional y oportunidades de aprendizaje continuo. Buscamos un desarrollador que se una al equipo para colaborar en diseño de software, integraciones con APIs de LLMs, automatización y soluciones de e-commerce, contribuyendo a una plataforma pionera en su sector.<br><br></p>",
+              "benefits": "<div>Formarás parte de un equipo creativo y comercial con visión de proyección internacional, trabajando en un rol totalmente presencial y clave para el desarrollo de una plataforma pionera en su sector.</div><div>Te integrarás directamente en iniciativas de diseño, automatización, e-commerce e inteligencia artificial de última generación, con importantes oportunidades reales para tu aprendizaje y crecimiento profesional dentro del equipo.</div><div>Este es un puesto ideal para quienes buscan un ambiente de trabajo retador, colaborativo y con enfoque hacia la innovación tecnológica aplicada.</div>",
+              "web": "http://www.carnaval.cl",
+              "twitter": null,
+              "github": null,
+              "facebook": null,
+              "angellist": null,
+              "country": "ES",
+              "response_time_in_days": {
+                "min": null,
+                "max": null
+              },
+              "logo": "https://getonbrd-prod.s3.amazonaws.com/uploads/users/logo/16565/logo-carnaval-1_492x142_a7f61189-3158-4973-a698-44db43bfec1d_492x142(2).png"
+            }
+          }
+        }
+      },
+      "links": {
+        "public_url": "https://www.getonbrd.com/jobs/junior-integrations-developer-inversiones-vertice-limitada-santiago"
       }
     }
   ],
   "meta": {
     "page": 1,
-    "per_page": 5,
-    "total_pages": 63
+    "per_page": 50,
+    "total_pages": 7
   }
 }
