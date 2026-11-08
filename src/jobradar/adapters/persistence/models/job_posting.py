@@ -27,6 +27,12 @@ class JobPostingRow(Base):
             in the World', 'US only'); None if the source does not say.
         salary_raw: Salary as the source wrote it, not parsed; None if the
             source does not say.
+        remote_modality: Remote policy as the source's own value ('no_remote',
+            'hybrid'...), not interpreted; None if the source does not say.
+        seniority_hint: Seniority as the source's own value ('semi_senior',
+            'senior'...), not interpreted; None if the source does not say.
+        applications_count: Applicants so far. Only Get on Board publishes it,
+            so None means unknown, not zero.
         language: 'es' or 'en', detected from the title and description; None
             if it was not detected.
         posted_at: When the source published it; None if the source does not
@@ -56,6 +62,9 @@ class JobPostingRow(Base):
     description_md: Mapped[str | None]
     region_hint: Mapped[str | None]
     salary_raw: Mapped[str | None]
+    remote_modality: Mapped[str | None]
+    seniority_hint: Mapped[str | None]
+    applications_count: Mapped[int | None]
     # Language for mypy, text for Postgres: without the explicit Text, a
     # Literal annotation becomes a non-native Enum column, varchar(2).
     # mypy checks reads and attribute assignments, but not constructor
