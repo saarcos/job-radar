@@ -1,5 +1,9 @@
 """job offers schema
 
+The six tables of IMPLEMENTATION.md §2.1 (sources, sync_runs, job_postings,
+job_posting_sources, search_profiles, applications), and the rows the
+application needs to work: the three sources and the default search profile.
+
 Revision ID: 001
 Revises:
 Create Date: 2026-11-07 18:45:42.499884
@@ -220,6 +224,46 @@ def upgrade() -> None:
         unique=False,
     )
     # ### end Alembic commands ###
+
+    # Seed. These rows ship with the schema, not in an optional script,
+    # because the application needs them: without sources, a sync on a fresh
+    # database fetches nothing and nothing fails. Every column is written out,
+    # defaults included, so the seed does not depend on them.
+    op.execute(
+        """
+        INSERT INTO sources (slug, name, enabled, priority) VALUES
+            ('getonboard', 'Get on Board', true, 0),
+            ('weworkremotely', 'We Work Remotely', true, 1),
+            ('remotive', 'Remotive', true, 2)
+        """
+    )
+    # The default profile of IMPLEMENTATION.md §6.
+    op.execute(
+        """
+        INSERT INTO search_profiles (
+            name,
+            include_keywords,
+            exclude_keywords,
+            exclude_seniority,
+            languages,
+            max_age_days,
+            source_slugs,
+            is_default
+        ) VALUES (
+            'Backend / Fullstack',
+            ARRAY['python', 'fastapi', 'django', 'flask', 'backend', 'node',
+                  'typescript', 'react', 'fullstack', 'full-stack'],
+            ARRAY['sales', 'marketing', 'designer', 'recruiter', 'copywriter',
+                  'customer support', 'data entry'],
+            ARRAY['staff', 'principal', 'director', 'head of', 'vp', 'manager',
+                  'architect', 'lead'],
+            NULL,
+            30,
+            NULL,
+            true
+        )
+        """
+    )
 
 
 def downgrade() -> None:
