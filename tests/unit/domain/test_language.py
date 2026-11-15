@@ -25,10 +25,22 @@ def test_getonboard_posting(posting_id, expected, load_fixture):
     assert detect(posting["title"], to_markdown(posting["description"])) == expected
 
 
-def test_wwr_posting_is_english(wwr_item):
-    title, description = wwr_item
+# Every posting of the WWR fixture, by company: a posting added to the fixture
+# without a case here fails with a KeyError.
+WWR_LANGUAGE = {
+    "Terac": "en",
+    "Testlio": "en",  # Spanish title, English text
+    "Secure Privacy": "en",
+    "WelcomeHome Software": "en",
+    "BDF EXPERTS": None,  # German
+}
 
-    assert detect(title, to_markdown(description)) == "en"
+
+def test_wwr_posting_language(wwr_item):
+    title, description = wwr_item
+    company = title.partition(":")[0]
+
+    assert detect(title, to_markdown(description)) == WWR_LANGUAGE[company]
 
 
 def test_empty_text_is_none():
