@@ -198,7 +198,9 @@ def test_seed_has_the_three_sources_and_the_default_profile(empty_database: URL)
     assert sources == [
         ("getonboard", "Get on Board", True, 0),
         ("weworkremotely", "We Work Remotely", True, 1),
-        ("remotive", "Remotive", True, 2),
+        # Seeded enabled by 001, turned off by 003: evaluated and left out of
+        # v1 (IMPLEMENTATION.md §1).
+        ("remotive", "Remotive", False, 2),
     ]
     # The default profile of IMPLEMENTATION.md §6.
     assert default_profiles == [

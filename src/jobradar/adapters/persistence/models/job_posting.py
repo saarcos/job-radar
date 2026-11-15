@@ -37,6 +37,10 @@ class JobPostingRow(Base):
             if it was not detected.
         posted_at: When the source published it; None if the source does not
             say.
+        expires_at: Until when the posting runs, from the first source in
+            priority order that declares it, not from the one whose url and
+            description won (IMPLEMENTATION.md §0.19). Read by the prefilter
+            and the UI; None if no source declares one.
         status: 'new', 'seen' or 'dismissed', set by the user.
         is_open: False once no source lists it anymore.
         closed_at: When it was closed; None while it is open.
@@ -72,6 +76,7 @@ class JobPostingRow(Base):
     # CHECK constraint stops a value outside Language.
     language: Mapped[Language | None] = mapped_column(Text)
     posted_at: Mapped[datetime | None]
+    expires_at: Mapped[datetime | None]
     status: Mapped[str] = mapped_column(server_default="new")
     is_open: Mapped[bool] = mapped_column(server_default=text("true"))
     closed_at: Mapped[datetime | None]

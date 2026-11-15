@@ -33,6 +33,10 @@ class JobPostingSourceRow(Base):
             interpreted.
         content_hash: Hash of the payload, to notice when the source changes
             the posting.
+        expires_at: Until when this listing runs at this source, not the
+            opening: a listing can expire while another source still lists
+            the posting. While it is in the future, absence does not close
+            the posting. None if the source does not say.
         first_seen_at: When this source listed it for the first time.
         last_seen_at: When this source listed it last. Closing postings reads
             this column, never JobPostingRow.last_seen_at: a sighting is stale
@@ -60,5 +64,6 @@ class JobPostingSourceRow(Base):
     url: Mapped[str]
     payload_json: Mapped[dict[str, Any]]
     content_hash: Mapped[str]
+    expires_at: Mapped[datetime | None]
     first_seen_at: Mapped[datetime] = mapped_column(server_default=func.now())
     last_seen_at: Mapped[datetime] = mapped_column(server_default=func.now())

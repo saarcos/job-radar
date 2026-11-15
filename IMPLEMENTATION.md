@@ -20,7 +20,7 @@ No se rediscuten durante la implementación. Si algo no funciona, se anota y se 
 | 6 | Idioma de los facts | Uno solo (el que elija el usuario en `profile.facts_language`) | Evita mantener dos versiones, que era el dolor original |
 | 7 | Idioma del CV | Se elige al generar/descargar; por defecto el de la oferta | Una versión por `(oferta, idioma)`. Las ediciones manuales **no** se arrastran entre idiomas |
 | 8 | Ofertas cerradas | Nunca se borran; `is_open = false` + `closed_at` | Si aplicaste, querés el registro |
-| 9 | Detección de cierre | Vía `sync_runs`, por fuente, solo tras un sync exitoso | Un sync fallido no puede cerrar nada |
+| 9 | Detección de cierre | Por avistamiento: ausente tras una corrida exitosa **y** sin `expires_at` futuro | Un sync fallido no puede cerrar nada; una fecha de vencimiento futura veta el cierre por ausencia |
 | 10 | Filtros | Guardados en `search_profiles` | Se usan siempre los mismos |
 | 11 | API key | Variable de entorno en `.env` | Local y de un usuario; guardarla en la base no aporta |
 | 12 | PDF | HTML + CSS → WeasyPrint, en el backend | CSS normal en vez de la API de react-pdf |
@@ -30,6 +30,8 @@ No se rediscuten durante la implementación. Si algo no funciona, se anota y se 
 | 16 | Dedupe entre idiomas | No se resuelve | Una oferta en ES y EN se ve dos veces. Aceptado |
 | 17 | Frontend | React + Vite + TypeScript | |
 | 18 | Scraping | No | Las tres fuentes elegidas tienen API o RSS |
+| 19 | Campos que solo publican algunas fuentes | Primer valor **no nulo** en orden de prioridad, no el del ganador del merge | `expires_at` lo da WWR, que pierde el merge contra Get on Board: con "gana todo el ganador" se perdería el dato |
+| 20 | Datos derivados | No se persisten como si fueran de la fuente | `posted_at` es el `pubDate` crudo, nunca `expires_at − 30`. Lo derivado se calcula al leer |
 
 ### No-goals
 
@@ -41,11 +43,68 @@ Cron / scheduler · deploy en la nube · multiusuario · auth · scoring de ofer
 
 | Fuente | Endpoint | Formato | Notas |
 |---|---|---|---|
-| **Get on Board** | `https://www.getonbrd.com/api/v0/search/jobs?query=...` y `/api/v0/categories/{id}/jobs` | JSON | La mejor del conjunto. Pública, sin auth. Trae descripción completa, modalidad, países, rango salarial y **número de postulaciones**. LATAM + España, ofertas mayormente en español pero también en inglés; su campo `lang` suele venir `lang_not_specified` y tampoco es confiable cuando viene (27 de las 95 ofertas con `en` estaban en español), por eso el idioma siempre se detecta (B3). El nombre de la empresa y el seniority solo vienen pidiendo `expand=["company","seniority"]`. Doc: `api-doc.getonbrd.com` |
-| **We Work Remotely** | `https://weworkremotely.com/categories/remote-programming-jobs.rss` | RSS | Descripción en HTML. Título viene como `"Empresa: Puesto"`. Trae campo `region` |
-| **Remotive** | `https://remotive.com/api/remote-jobs?category=software-dev` | JSON | Su categoría es ruidosa (devuelve copywriters y ventas). **Ignorar su filtro** y filtrar nosotros |
+| **Get on Board** | `https://www.getonbrd.com/api/v0/search/jobs?query=...` y `/api/v0/categories/{id}/jobs` | JSON | La mejor del conjunto. Pública, sin auth. Trae descripción completa, modalidad, países, rango salarial y **número de postulaciones**. LATAM + España, ofertas mayormente en español pero también en inglés; su campo `lang` suele venir `lang_not_specified` y tampoco es confiable cuando viene (27 de las 95 ofertas con `en` estaban en español), por eso el idioma siempre se detecta (B3). El nombre de la empresa y el seniority solo vienen pidiendo `expand=["company","seniority"]`. **No publica fecha de vencimiento**: su único indicador de cierre es la ausencia. Doc: `api-doc.getonbrd.com` |
+| **We Work Remotely** | Cuatro feeds por categoría: `remote-full-stack-programming-jobs`, `remote-back-end-programming-jobs`, `remote-front-end-programming-jobs`, `remote-devops-sysadmin-jobs` (`.rss`) | RSS | **No** usar `remote-jobs.rss` (general, 40 ofertas, 10 por categoría) ni el viejo `remote-programming-jobs.rss`: solo los de categoría traen `expires_at`, y entre los cuatro suman ~179 ofertas únicas. Se deduplican por `guid` dentro del adaptador. Sin elemento `<company>`: empresa y puesto vienen juntos en `<title>` como `"Empresa: Puesto"`. Elementos propios fuera del estándar RSS: `<region>`, `<country>`, `<state>`, `<skills>`, `<category>`, `<type>`, `<expires_at>` y `<media:content>`. Descripción en HTML, con un `To apply: <url>` al final que es boilerplate del sitio |
+| ~~**Remotive**~~ | `https://remotive.com/api/remote-jobs` | JSON | **Evaluada y descartada en v1** (14-nov). Detalle abajo |
 
 **Regla de implementación:** verificar la forma real de la respuesta antes de escribir el adaptador. Guardar una respuesta recortada a 2–3 ofertas en `tests/fixtures/<fuente>_sample.<json|xml>`, según el formato de la fuente (`getonboard_sample.json`, `wwr_sample.xml`), y testear el mapeo contra ese archivo. Ningún test sale a la red.
+
+**Las tres son ruidosas.** Get on Board devuelve híbridos presenciales en Chile y ofertas de PHP cuando buscás Python; WWR mezcla consultoría SAP en alemán dentro del feed de programación; Remotive trae copywriters. Ninguna categoría de ninguna fuente sustituye al prefiltro de §6.
+
+### Vigencia: cómo sabe cada fuente que una oferta murió
+
+| Fuente | Publica vencimiento | Qué la mata |
+|---|---|---|
+| Get on Board | no | la ausencia tras una corrida exitosa |
+| We Work Remotely | sí, `expires_at` por aviso | el vencimiento (la ausencia coincide con él) |
+
+**Lo verificado sobre WWR** (14-nov, dos fotos del feed con 17 horas de diferencia):
+
+- De 179 ofertas, desaparecieron 6; las 6 habían pasado su `expires_at`.
+- **0 desaparecieron antes de vencer**, y **0 siguieron listadas después de vencer.**
+- `expires_at` coincide con el "Apply before" que muestra la página de la oferta.
+- `pubDate` **no** es la fecha que muestra la página: es la publicación original y no se actualiza al renovar. Hubo casos de 88 y 57 días en el feed contra 28 y 27 en la página, con la oferta abierta. Por eso `posted_at` nunca se filtra por antigüedad sin mirar antes `expires_at`.
+- El feed **está ordenado por fecha**, de la más nueva a la más vieja.
+- Muchas ofertas comparten el mismo `expires_at` al segundo, porque WWR publica en tandas programadas (se repiten los horarios 17:00:25, 16:00:14, 07:31:0x). No es un artefacto de generación del archivo: a lo largo del feed los valores van del 14-dic al 21-nov, descendiendo con la antigüedad.
+
+**El elemento `<region>` es el filtro más valioso del proyecto.** Tiene un conjunto acotado de valores y restringe de verdad quién puede aplicar:
+
+```
+Anywhere in the World · Latin America Only · USA Only · North America Only
+Europe Only · Asia Only · Africa Only · California
+```
+
+Desde Ecuador solo sirven los dos primeros. En la muestra revisada, **casi la mitad de las ofertas son "USA Only"** y otro tercio "Anywhere in the World": una sola regla determinista descarta la mitad del feed, y es justo la mitad inaplicable.
+
+Ojo con las granularidades mezcladas: `California` es un estado, no una región. WWR mete las restricciones estatales dentro de `<region>`, no en `<state>`, que viene vacío en toda la muestra igual que `<country>`. Hay que tratarlo como una lista de valores conocidos, nunca como una jerarquía.
+
+**`<skills>`** viene como texto separado por comas con un "and" antes del último (`"JSON, PostgreSQL, SQL, … and Intercom"`) y **frecuentemente vacío**: sirve de complemento al prefiltro, no de reemplazo. **`<type>`** trae `Full-Time` o `Contract`; se guarda en el payload y no tiene columna hasta que algún filtro la necesite.
+
+**Lo no verificado:** que los feeds por categoría listen *todo* lo activo y no sean una ventana. Los indicios apuntan a que sí (tamaños dispares de 126/30/13/10, y ofertas con `pubDate` de 2024 todavía listadas), pero no hay prueba. De ahí el veto por `expires_at` en §5: si la hipótesis falla, el veto evita cerrar ofertas vivas.
+
+### Remotive: por qué quedó fuera de la v1
+
+Se exploró el 14-nov y se descartó. El adaptador habría costado poco —con el puerto hecho son unas cuarenta líneas— pero lo que aporta no lo justifica:
+
+- **16 ofertas en total.** `job-count` y `total-job-count` coinciden en 16, en todas las categorías juntas. Contra ~300 de Get on Board y ~179 de WWR, es el 3% del volumen. En agosto servía cientos: la API pública se restringió.
+- **Las ofertas vienen con 24 horas de retraso**, a propósito y declarado en su aviso legal, para que Remotive se lleve el tráfico primero. Eso va en contra del objetivo: querés llegar antes de que suban las postulaciones, no un día después y cuando ya salió en otros lados.
+- **Tope de ~4 requests por día**, con bloqueo por exceso. Choca con un sync a demanda: media docena de pruebas seguidas y quedás bloqueado.
+- **Obliga a enlazar de vuelta y a acreditar a Remotive**, y prohíbe redistribuir sus ofertas. Manejable, pero arrastra condiciones al README y a la UI por 16 ofertas.
+- Sin campo de vencimiento (se verificó: no hay `expires_at`, `valid_*` ni `deadline`), así que moriría por ausencia como Get on Board.
+
+Queda sembrada en `sources` con `enabled = false`, sin adaptador. Si algún día recupera volumen, el puerto hace que volver a incluirla sea un archivo y una línea en `SOURCES`.
+
+### La tercera fuente, cuando toque
+
+**No otro agregador: Greenhouse y Lever con una lista curada de empresas** (eran los bloques J y K del spec original). Cada empresa expone su board públicamente y sin auth; verificar las rutas cuando se llegue, que estas cosas cambian.
+
+Por qué son mejores que sumar otro agregador:
+
+- Cero ruido: las empresas las elegís vos.
+- Es la fuente original, no una copia: sin retraso y sin que la oferta llegue ya saturada.
+- Menos competencia: lo que solo está en el board propio no lo ve quien mira agregadores.
+
+El costo no es técnico: hay que **armar la lista** de 20-30 empresas. Ese trabajo es probablemente lo que más sube la calidad de lo que ves, más que cualquier fuente que se agregue.
 
 ---
 
@@ -76,15 +135,16 @@ job_postings                       -- una fila por vacante real
   canonical_key   text unique
   company         text             -- valor original, legible
   title           text             -- valor original, legible
-  url             text             -- la de la fuente de mejor prioridad
+  url             text             -- la de la mejor fuente que la vio en la última corrida
   description_md  text null
   region_hint     text null        -- 'Anywhere in the World', 'US only'... null si la fuente no lo da
   salary_raw      text null        -- texto tal cual; sin parsear
   remote_modality text null        -- valor crudo de la fuente; null si no lo da
   seniority_hint  text null        -- valor crudo de la fuente ('semi_senior', 'senior'...); null si no lo da
   applications_count int null      -- solo Get on Board; null es "no sé", no cero
+  expires_at      timestamptz null -- campo disperso (§0.19); null = ninguna fuente declara vencimiento
   language        text null check  -- 'es' | 'en' (domain.language.Language), detectado del título+descripción
-  posted_at       timestamptz null
+  posted_at       timestamptz null -- crudo de la fuente; en WWR no coincide con lo que muestra la página
   status          text default 'new' check   -- 'new' | 'seen' | 'dismissed'
   is_open         bool default true
   closed_at       timestamptz null
@@ -100,6 +160,7 @@ job_posting_sources                -- una fila por (oferta, fuente) donde se vio
   url             text
   payload_json    jsonb            -- crudo, sin interpretar
   content_hash    text
+  expires_at      timestamptz null -- vencimiento de ESTE aviso, no de la vacante
   first_seen_at   timestamptz default now()
   last_seen_at    timestamptz default now()
   unique (source_id, external_id)
@@ -113,7 +174,7 @@ search_profiles
   exclude_keywords  text[]
   exclude_seniority text[]         -- se buscan en el título; las del perfil por defecto están en §6
   languages         text[] null
-  max_age_days      int default 30
+  max_age_days      int default 30 -- solo aplica a ofertas sin expires_at (§6)
   source_slugs      text[] null    -- null = todas
   is_default        bool default false
   unique index (is_default) where is_default   -- a lo sumo un perfil por defecto
@@ -137,7 +198,16 @@ applications
 - `priority` es único: con un empate, quién gana el merge dependería del orden de una lista.
 - Los nombres de constraints e índices salen de la convención de `models/base.py`: `uq_<tabla>_<columnas>`, `ix_<tabla>_<columnas>`, `ck_<tabla>_<nombre>`, `fk_<tabla>_<columna>_<tabla referida>`.
 
-**Por qué `job_posting_sources` y no una tabla `raw_postings` aparte:** cada avistamiento guarda su propio `external_id`, su URL y su payload crudo. Así sabés no solo dónde más se vio la oferta, sino con qué link y qué dijo cada fuente — y podés reconstruir `job_postings` desde cero sin volver a pegarle a ninguna API.
+**Por qué `job_posting_sources` y no una tabla `raw_postings` aparte:** cada avistamiento guarda su propio `external_id`, su URL, su payload crudo y su fecha de vencimiento. Así sabés no solo dónde más se vio la oferta, sino con qué link, qué dijo cada fuente y hasta cuándo corre cada aviso — y podés reconstruir `job_postings` desde cero sin volver a pegarle a ninguna API.
+
+**Las dos columnas `expires_at` no son lo mismo**, y la distinción es la que hace funcionar el cierre:
+
+| Columna | Qué es | Quién la usa |
+|---|---|---|
+| `job_posting_sources.expires_at` | hasta cuándo corre **ese aviso** | `close_missing`: veta el cierre por ausencia |
+| `job_postings.expires_at` | el campo disperso resuelto por prioridad (§0.19) | el prefiltro (§6) y la UI |
+
+Un aviso que caduca y una vacante que se llena son cosas distintas. Que el anuncio de WWR venza no cierra la oferta si Get on Board la sigue listando.
 
 ### 2.2 Lado CV (los "facts")
 
@@ -301,6 +371,7 @@ class JobData:
     remote_modality: str | None
     salary_raw: str | None
     posted_at: datetime | None
+    expires_at: datetime | None
     language: Language | None
     seniority_hint: str | None
     applications_count: int | None
@@ -318,7 +389,7 @@ class JobSource(Protocol):
     def to_job(self, raw: RawJob) -> JobData: ...
 ```
 
-Cada adaptador extrae su propio `external_id` y mapea su propio payload. La persistencia nunca conoce la forma de ninguna fuente. Campo que la fuente no da → `None`, **nunca un valor por defecto inventado**: un `None` honesto es información, un `"worldwide"` inventado es una mentira que después el LLM se cree.
+Cada adaptador extrae su propio `external_id` y mapea su propio payload. La persistencia nunca conoce la forma de ninguna fuente. Campo que la fuente no da → `None`, **nunca un valor por defecto inventado**: un `None` honesto es información, un `"worldwide"` inventado es una mentira que después el LLM se cree. Un valor **derivado** tampoco se persiste como si fuera de la fuente (§0.20).
 
 ### 4.2 `ports/llm.py`
 
@@ -360,7 +431,7 @@ class ResumeRenderer(Protocol):
 ## 5. El pipeline de sync
 
 ```
-fetch → to_job → upsert raw → proyectar a job_postings → cerrar las ausentes
+fetch → to_job → upsert postings → guardar avistamientos → cerrar las muertas
 ```
 
 ### Orden exacto, en `application/sync_jobs.py`
@@ -398,6 +469,8 @@ def sync(session, sources: list[JobSource]) -> SyncSummary:
 
 **El paso 3 va después del 2, no antes.** `job_posting_sources.job_posting_id` es una FK: para una oferta nueva, la fila de `job_postings` todavía no existe. Invertir el orden falla por violación de clave foránea en el primer sync.
 
+**Una fuente que falla parcialmente cuenta como fallida.** Si el adaptador de WWR consulta cuatro feeds y uno tira timeout, la corrida entera se marca `failed`: con datos incompletos, la ausencia de una oferta no significa nada. Ese día esa fuente no cierra nada.
+
 **Cuidado con las dos columnas homónimas.** Hay dos `last_seen_at`:
 
 | Columna | Qué la refresca | Para qué sirve |
@@ -414,29 +487,55 @@ def sync(session, sources: list[JobSource]) -> SyncSummary:
 `upsert_postings` se llama **una vez con todas las fuentes juntas**. Eso es lo que hace posible el merge por prioridad:
 
 ```python
-ordered = sorted(jobs, key=lambda j: SOURCE_PRIORITY.get(j.source_slug, 99))
-seen = {}
+ordered = sorted(jobs, key=lambda j: SOURCE_PRIORITY[j.source_slug])
+seen: dict[str, JobData] = {}
 for j in ordered:
-    seen.setdefault(j.canonical_key, j)  # el primero (mejor prioridad) gana
+    if j.canonical_key not in seen:
+        seen[j.canonical_key] = j          # el primero (mejor prioridad) gana los campos centrales
+    else:
+        seen[j.canonical_key] = coalesce_sparse(seen[j.canonical_key], j)
 ```
 
-Después un `INSERT ... ON CONFLICT (canonical_key) DO UPDATE SET last_seen_at = NOW(), is_open = true, closed_at = null`.
+**Dos reglas de merge distintas**, y la diferencia importa:
 
-Dos cosas que importan:
+- **Campos centrales** — `company`, `title`, `url`, `description_md`, `source_slug` — se toman **en bloque** de la mejor fuente. Mezclarlos daría el título de una fuente con la descripción de otra.
+- **Campos dispersos** — `expires_at`, `seniority_hint`, `remote_modality`, `salary_raw`, `applications_count`, `region_hint` — se resuelven con el **primer valor no nulo en orden de prioridad** (§0.19). Si se tomaran del ganador, se perdería el `expires_at` de WWR cada vez que Get on Board liste la misma oferta.
 
-- **Deduplicar en Python antes del insert es obligatorio**, no una optimización: Postgres falla con *"cannot affect row a second time"* si un mismo `INSERT` trae dos filas con la misma `canonical_key`.
-- **Limitación conocida:** el merge solo resuelve dentro de una corrida. Si hoy la oferta entra por Remotive y mañana agregás Get on Board, la fila ya existe y conserva la URL fea. Por eso se guardan los payloads crudos: se puede reconstruir. Documentarlo en el commit, no esconderlo.
+Después:
+
+```sql
+INSERT ... ON CONFLICT (canonical_key) DO UPDATE SET
+    company        = EXCLUDED.company,
+    title          = EXCLUDED.title,
+    url            = EXCLUDED.url,
+    description_md = EXCLUDED.description_md,
+    source_slug    = EXCLUDED.source_slug,
+    expires_at     = EXCLUDED.expires_at,
+    -- … el resto de los campos dispersos …
+    last_seen_at   = NOW(),
+    is_open        = true,
+    closed_at      = null
+```
+
+**El upsert sobrescribe, no conserva.** Como la deduplicación en Python ya eligió la mejor fuente que vio la oferta **en esta corrida**, la fila que llega al `ON CONFLICT` es siempre la correcta. El significado queda enunciable: *la oferta refleja a la mejor fuente que la listó en la última corrida en que alguien la listó.*
+
+Eso se cura solo. Mientras Get on Board la liste, gana Get on Board; en cuanto deja de listarla, la corrida siguiente trae a WWR como mejor fuente disponible y la URL pasa a la de WWR, sin que nadie gestione el cambio y sin dejar un link muerto apuntando a una fuente que ya no la publica.
+
+Lo único que no cubre: una oferta que ninguna fuente lista en esta corrida pero que sigue abierta por un `expires_at` futuro. Esa conserva los datos de la última vez que alguien la publicó, que es lo mejor que hay.
+
+**Deduplicar en Python antes del insert es obligatorio**, no una optimización: Postgres falla con *"cannot affect row a second time"* si un mismo `INSERT` trae dos filas con la misma `canonical_key`.
 
 ### Cierre de ofertas
 
-**El principio:** un avistamiento quedó viejo si su `last_seen_at` es anterior al `started_at` de la última corrida **exitosa** de su fuente — significa que esa fuente corrió bien y ya no la listó. Una oferta se cierra solo cuando **todos** sus avistamientos quedaron viejos.
+**La regla, en una línea:**
 
-Son dos pasos y el orden importa:
+> Un **avistamiento** muere cuando está ausente desde la última corrida exitosa de su fuente **y** no tiene un `expires_at` futuro.
+> Una **oferta** se cierra cuando todos sus avistamientos están muertos.
 
 ```python
 def close_missing(session) -> int:
-    # Paso 1 — por fuente: qué avistamientos quedaron viejos
-    stale_by_source: dict[int, datetime] = {}
+    # Paso 1 — por fuente: desde qué momento cuenta la ausencia
+    cutoffs: dict[int, datetime] = {}
     for source in enabled_sources(session):
         last_ok = last_successful_run(session, source.id)
         if last_ok is None:
@@ -446,32 +545,45 @@ def close_missing(session) -> int:
         if total and stale / total > 0.5:
             log.warning("skipping staleness for %s: %d/%d", source.slug, stale, total)
             continue  # cambió el formato, no cerraron todas
-        stale_by_source[source.id] = last_ok.started_at
+        cutoffs[source.id] = last_ok.started_at
 
-    # Paso 2 — cerrar las ofertas sin NINGÚN avistamiento vigente
-    return mark_closed_without_fresh_sightings(session, stale_by_source)
+    warn_sightings_without_death_condition(session, cutoffs)
+    return mark_closed_without_live_sightings(session, cutoffs)
 ```
 
 ```sql
--- mark_closed_without_fresh_sightings, con :cutoffs = {source_id: started_at}
+-- mark_closed_without_live_sightings, con :cutoffs = {source_id: started_at}
 UPDATE job_postings p
    SET is_open = false, closed_at = NOW()
  WHERE p.is_open
    -- al menos una fuente evaluable la vio alguna vez
    AND EXISTS (SELECT 1 FROM job_posting_sources s
                 WHERE s.job_posting_id = p.id AND s.source_id IN :evaluated)
-   -- y ninguna la sigue listando
-   AND NOT EXISTS (SELECT 1 FROM job_posting_sources s
-                    WHERE s.job_posting_id = p.id
-                      AND (s.source_id NOT IN :evaluated          -- fuente sin corrida ok: cuenta como vigente
-                           OR s.last_seen_at >= :cutoff_of(s.source_id)))
+   -- y ningún avistamiento sigue vivo
+   AND NOT EXISTS (
+         SELECT 1 FROM job_posting_sources s
+          WHERE s.job_posting_id = p.id
+            AND (   s.source_id NOT IN :evaluated          -- fuente sin corrida ok: no sabemos nada
+                 OR s.last_seen_at >= :cutoff_of(s.source_id)   -- la sigue listando
+                 OR (s.expires_at IS NOT NULL AND s.expires_at > NOW())  -- el aviso todavía corre
+                )
+       )
 ```
+
+**Por qué el veto por `expires_at`.** Si los feeds de WWR resultaran ser una ventana y no un listado completo, cerrar por ausencia ocultaría ofertas vivas **en silencio**. El veto cuesta una condición y hace que esa hipótesis —la única sin verificar de §1— deje de ser peligrosa. El precio es que una oferta que la empresa cierra antes de tiempo sobrevive hasta su fecha de vencimiento: un clic de más, contra una oferta perdida. Errores asimétricos, se elige el barato.
 
 **Por qué no se decide fuente por fuente:** si WWR deja de listar la oferta pero Get on Board todavía la publica, la vacante sigue abierta. Cerrarla ahí sería ocultarte una oferta viva, y en silencio — el peor tipo de bug, porque nada falla.
 
-**Las dos redes de seguridad:** una fuente que falló (o que nunca corrió bien) no envejece nada, y el corte del 50% frena el caso de un cambio de formato que vaciaría la lista de golpe.
+**Las tres redes de seguridad:** una fuente que falló (o que nunca corrió bien) no envejece nada; el corte del 50% frena el caso de un cambio de formato que vaciaría la lista de golpe; y el veto por vencimiento cubre la hipótesis de la ventana.
 
-**Test obligatorio del bloque:** una oferta vista por dos fuentes, una de las cuales deja de listarla, sigue `is_open = true`.
+**El warning.** `warn_sightings_without_death_condition` registra los avistamientos sin `expires_at` **y** cuya fuente nunca tuvo una corrida exitosa: no tienen ninguna condición de muerte y quedarían abiertos para siempre. Con los feeds actuales no debería pasar; que aparezca en el log es cómo te enterás si WWR deja de publicar el campo, en vez de descubrirlo seis meses después por una lista llena de zombis.
+
+**Tests obligatorios del bloque:**
+
+1. Una oferta vista por dos fuentes, una de las cuales deja de listarla, sigue `is_open = true`.
+2. Una oferta que ninguna fuente lista ya **sí** se cierra (atrapa el error de leer el `last_seen_at` equivocado).
+3. Una oferta ausente pero con `expires_at` futuro **no** se cierra.
+4. Una corrida fallida no cierra nada.
 
 ---
 
@@ -486,14 +598,33 @@ def reasons(posting: JobPosting, profile: SearchProfile) -> list[str]   # para d
 
 Reglas, en orden:
 
-1. `posted_at` más viejo que `max_age_days` → fuera
-2. `status == 'dismissed'` o existe `application` → fuera
-3. Título contiene algo de `exclude_seniority` → fuera
-4. Título o descripción contiene algo de `exclude_keywords` → fuera
-5. Ninguna de `include_keywords` aparece en título ni descripción → fuera
-6. `language` no está en `profile.languages` (si está definido) → fuera
+1. **Frescura.** Si la oferta tiene `expires_at`, se usa eso: vencida → fuera. Si no lo tiene, se cae a `posted_at` más viejo que `max_age_days` → fuera.
+2. **Región incompatible** → fuera. Es la regla que más descarta: la mitad de WWR es "USA Only".
+3. `status == 'dismissed'` o existe `application` → fuera
+4. `seniority_hint` incompatible (cuando la fuente lo publica) → fuera
+5. Título contiene algo de `exclude_seniority` → fuera
+6. Título o descripción contiene algo de `exclude_keywords` → fuera
+7. Ninguna de `include_keywords` aparece en título ni descripción → fuera
+8. `language` no está en `profile.languages` (si está definido) → fuera
 
 Todo sobre `description_md`, **nunca sobre el HTML crudo**: en HTML, `python` aparece dentro de URLs y da falsos positivos.
+
+### La regla de región necesita diseño propio
+
+Las fuentes hablan vocabularios distintos y no se pueden comparar en crudo:
+
+| Fuente | Qué dice |
+|---|---|
+| WWR | `region`: `"USA Only"`, `"Latin America Only"`, `"Anywhere in the World"`, `"California"`… |
+| Get on Board | `countries`: `["Chile"]` o `["Remote"]`, más `remote_modality`: `no_remote` / `hybrid` / `remote_local` |
+
+Hace falta un `domain/region.py` que normalice ambos a un conjunto común y chico —`worldwide`, `latam`, `usa`, `europe`, `asia`, `africa`, `other`— con su mapeo dentro de cada adaptador, y un campo en `search_profiles` con las regiones aceptables (para Ecuador: `worldwide` y `latam`).
+
+Se diseña en B8, no antes: B6 y B5 solo **capturan** el valor crudo en `region_hint`. Pero queda escrito acá para que ese bloque no lo improvise, porque es la regla que más ofertas descarta de todo el prefiltro.
+
+**Por qué `expires_at` manda sobre la edad.** El `pubDate` de WWR es la publicación original y no se actualiza al renovar: hubo ofertas con 88 días en el feed que la página mostraba como de 28 y seguían abiertas. Filtrar por antigüedad sin mirar el vencimiento te oculta ofertas vivas.
+
+**Por qué la regla 3 va antes que la 4.** Cuando la fuente publica el seniority en un campo propio —Get on Board lo da como `locale_key`: `semi_senior`, `senior`— es más confiable que buscar palabras en el título. La regla 4 es el plan B para las fuentes que no lo dan.
 
 Perfil por defecto que se siembra en la migración:
 
@@ -501,9 +632,12 @@ Perfil por defecto que se siembra en la migración:
 name: Backend / Fullstack
 include_keywords: [python, fastapi, django, flask, backend, node, typescript, react, fullstack, full-stack]
 exclude_keywords: [sales, marketing, designer, recruiter, copywriter, customer support, data entry]
-exclude_seniority: [staff, principal, director, "head of", vp, manager, architect, lead]
+exclude_seniority: [staff, principal, director, "head of", vp, manager, architect, lead,
+                    líder, lider, jefe, gerente, arquitecto, encargado, consultor]
 max_age_days: 30
 ```
+
+**`exclude_seniority` tiene que estar en los dos idiomas.** Get on Board publica en español y una oferta titulada *"Líder Técnico"* que pide 6 años no matchea ninguna palabra en inglés. El mismo problema aparece en WWR, que mezcla ofertas en alemán dentro del feed de programación.
 
 **Criterio de aceptación:** descarta ≥70% de lo que entra, y ninguna oferta a la que vos aplicarías. Verificarlo a mano una vez sobre ~50 ofertas reales.
 
@@ -527,6 +661,8 @@ return paginate(matched, page, size)
 ```
 
 SQL hace lo barato y grueso; las reglas corren en Python sobre ese conjunto. A esta escala (cientos, a lo sumo miles de filas) es instantáneo, y mantiene las reglas en un solo lugar probado en vez de repartidas entre Python y SQL. Si algún día no alcanza, se traducen a SQL — pero no antes de medirlo.
+
+> Ojo con `repo.open_postings`: el corte grueso por `max_age_days` en SQL **no puede** descartar ofertas con `expires_at` futuro, o volvés a ocultar las de WWR con `pubDate` viejo. El filtro SQL es `is_open AND (expires_at > now() OR posted_at > now() - max_age_days)`.
 
 **Nada de esto se persiste.** El filtro se calcula al leer, así que editar un `search_profile` tiene efecto en la consulta siguiente sin reprocesar nada.
 
@@ -706,20 +842,38 @@ Reglas que salieron de respuestas reales:
 - `description_md` une `projects`, `functions`, `description`, `desirable` y `benefits` de la oferta. Si una sección se saltea lo decide su texto, no su título: hay títulos sin texto y textos sin título. `company.attributes.projects` nunca entra: es el texto de la última oferta de la empresa.
 - `salary_raw` no declara moneda: la API no la informa y la muestra no permite deducirla.
 - `region_hint` sale de los campos de la oferta, nunca de `company.attributes.country`, que dice dónde está la empresa y no dónde contrata.
+- `expires_at` queda en `None`: Get on Board no publica fecha de vencimiento.
 
 *Listo:* `fetch()` trae ofertas reales; los tests de mapeo corren sin red.
 
-**B6 · WWR y Remotive**
-Dos adaptadores más. **Examen del puerto:** si hace falta tocar algo fuera de `adapters/sources/`, el contrato está mal y se corrige.
-*Listo:* las tres fuentes en la lista `SOURCES`, sin cambios en el resto.
+**B6 · We Work Remotely**
+El segundo adaptador. **Examen del puerto:** si hace falta tocar algo fuera de `adapters/sources/`, el contrato está mal y se corrige.
+
+Incluye además una migración que agrega `expires_at` a `job_postings` y a `job_posting_sources`, deja `remotive` en `enabled = false`, y un ajuste a `language.detect()`.
+
+**La v1 va con dos fuentes.** Remotive se evaluó y se descartó (§1). La tercera no se agrega antes de B10: el pipeline es lo que falta, no el volumen — con ~480 ofertas entre las dos no vas a aplicar a todas. Y una fuente nueva rinde más como examen del puerto **después** de B7, cuando además prueba el dedupe, el merge y el cierre, y no solo el mapeo.
+
+Reglas de WWR que salieron de la exploración:
+- Cuatro feeds por categoría, **no** el general ni el viejo `remote-programming-jobs.rss` (§1). Se deduplican por `guid` dentro del adaptador.
+- Sin elemento `<company>`: el split de `"Empresa: Puesto"` por el **primer** `:` es el camino principal, no un fallback.
+- `<region>` → `region_hint`. `<category>` se conserva en el payload.
+- `posted_at` = `pubDate` crudo. **No** `expires_at − 30`: sería un valor derivado persistido como si fuera de la fuente (§0.20). Lo que resuelve el problema de la fecha mentirosa es la regla 1 del prefiltro, no falsear el dato.
+- El `To apply: <url>` del final se descarta en el adaptador: es boilerplate del sitio, no HTML genérico, así que no es trabajo de `to_markdown`.
+- Se descartan `summary_detail` (duplica `summary`) y `published_parsed` (no es serializable).
+- **El XML se lee como bytes**, dejando que el parser respete la declaración de encoding. Leerlo con el default del sistema produce mojibake (`DÃ¼sseldorf`) que termina guardado en el fixture.
+- Elegir feedparser **o** `ElementTree` y escribirlo en el ticket: los campos se llaman distinto (`summary`/`published` contra `description`/`pubDate`).
+
+Ajuste a B3 que entra acá: `language.detect()` devuelve `None` cuando ninguna lista de stopwords domina con claridad. El feed de WWR trae ofertas en alemán, y hoy el clasificador las etiquetaría `es` o `en`, inventando un dato.
+
+*Listo:* las dos fuentes en la lista `SOURCES`, sin cambios fuera de `adapters/sources/` salvo la migración y el ajuste de `detect()`.
 
 **B7 · Pipeline de sync**
-`sync_jobs.py` completo: sightings, dedupe, merge por prioridad, `sync_runs`, `close_missing` con el corte del 50%.
-*Listo, los cinco:* dos corridas seguidas no duplican; `count(job_postings) <= count(job_posting_sources)`; una oferta vista por dos fuentes y dejada de listar por una sigue abierta; una corrida fallida no cierra nada; y **una oferta que ninguna fuente lista ya sí se cierra** (el test que atrapa el error de leer el `last_seen_at` equivocado).
+`sync_jobs.py` completo: avistamientos, dedupe, merge por prioridad con las dos reglas (campos centrales en bloque, dispersos por coalesce), `sync_runs`, corrida parcial = corrida fallida, `close_missing` con el corte del 50% y el veto por `expires_at`, y el warning de avistamientos sin condición de muerte.
+*Listo, los seis:* dos corridas seguidas no duplican; `count(job_postings) <= count(job_posting_sources)`; una oferta vista por dos fuentes y dejada de listar por una sigue abierta; una oferta ausente con `expires_at` futuro no se cierra; una corrida fallida no cierra nada; y **una oferta que ninguna fuente lista ya sí se cierra**.
 
 **B8 · Prefiltro**
-`prefilter.py` + tests + `GET /api/jobs?profile_id=`.
-*Listo:* descarta ≥70% y, revisado a mano sobre 50 ofertas, no descarta ninguna que aplicarías.
+`prefilter.py` + `domain/region.py` + tests + `GET /api/jobs?profile_id=`.
+*Listo:* descarta ≥70% y, revisado a mano sobre 50 ofertas, no descarta ninguna que aplicarías. Una oferta de WWR con `pubDate` de 88 días pero `expires_at` futuro **pasa** el filtro. Y una `"USA Only"` **no** pasa, mientras que una `"Latin America Only"` sí.
 
 **B9 · API de lectura**
 `/api/jobs`, `/api/jobs/{id}`, `PATCH` de status, `/api/sync`, search-profiles CRUD.
@@ -731,7 +885,7 @@ Vite + React + TS + TanStack Query + react-router. Tabla con filtros, botón Syn
 
 ### Fase 2 — CV sin LLM
 
-**B11 · Esquema de facts** — tablas de §2.2 + migración.
+**B11 · Esquema de facts** — tablas de §2.2 + migración. Incluye la FK de `applications.resume_version_id`, que quedó pendiente desde B4.
 
 **B12 · CRUD de facts** — endpoints + tests.
 
@@ -773,7 +927,9 @@ El implementador es Claude Code, dentro del repo, con este archivo como contexto
 
 **Regla que decide todo lo demás:** no se mergea lo que no podés explicar con tus palabras en la descripción del PR. Si algo no se entiende, se le pide al agente que lo explique o lo simplifique — no se aprueba.
 
-**Al cerrar cada bloque:** actualizar `NEXT.md` (estado / siguiente / pendientes) y commitear con el *porqué* en el cuerpo, no el *qué*.
+**Antes de escribir el adaptador de una fuente nueva, explorala a mano.** Un par de requests con `curl` y mirar la respuesta cruda cuesta diez minutos y cambia el diseño: de ahí salieron el `expand` de Get on Board, los cinco campos de descripción, el `expires_at` de WWR y la trampa de los dos `projects`. Ninguna de esas cosas estaba en la documentación.
+
+**Al cerrar cada bloque:** actualizar `NEXT.md` (estado / siguiente / pendientes) y commitear con el *porqué* en el cuerpo, no el *qué*. Si el bloque cambió una decisión de diseño, **actualizar este archivo en el mismo PR**.
 
 **Al retomar después de una pausa:**
 
@@ -792,8 +948,25 @@ Y acá, el primer bloque sin tildar.
 | Riesgo | Mitigación |
 |---|---|
 | Una fuente cambia de formato y rompe el adaptador | Los tests de mapeo lo detectan; `close_missing` tiene el corte del 50% |
+| **Los feeds de WWR resultan ser una ventana y no un listado completo** | El veto por `expires_at` en `close_missing`: una oferta ausente con vencimiento futuro no se cierra |
+| WWR deja de publicar `expires_at` | El warning de avistamientos sin condición de muerte lo hace visible en el log |
+| Una oferta se cierra antes de su vencimiento y la seguimos mostrando | Asumido. Cuesta un clic; el error inverso cuesta una oferta |
 | Get on Board cambia su API pública | Las otras dos siguen; el puerto aísla el daño a un archivo |
 | El parseo de PDF sale mal | Revisión obligatoria antes de guardar; es parte del flujo |
 | El validador bloquea reescrituras legítimas | `tech_aliases.yaml` editable + severidad `warning` para lo dudoso |
 | El frontend se come el tiempo | Es lo primero que se recorta: una pantalla fea pero funcional cumple |
 | Pausa larga | `NEXT.md` + bloques autocontenidos + commits que explican el porqué |
+
+---
+
+## 12. Pendientes de verificación
+
+Cosas asumidas que todavía no se probaron. No bloquean ningún bloque, pero conviene cerrarlas cuando haya datos.
+
+| Qué | Cómo se verifica | Por qué importa |
+|---|---|---|
+| Que los feeds de WWR listen todo lo activo | Bajar el feed un martes a media mañana: si tampoco entra nada nuevo en las cuatro categorías, está cacheado. Comparar el conteo de la página de categoría contra las 126 de Full-Stack | Si es una ventana, el cierre por ausencia sería peligroso. Hoy lo cubre el veto |
+| Si una oferta cerrada por la empresa sale del feed antes de vencer | `job_posting_sources` lo acumula solo: en un mes se puede comparar la desaparición contra `expires_at` | Decide si vale la pena reintroducir un cierre por ausencia con gracia |
+| La moneda de `min_salary`/`max_salary` en Get on Board | Buscar una oferta cuya descripción declare el sueldo en dólares y comparar | Hoy `salary_raw` no declara unidad, que es lo honesto |
+| Si Remotive recupera volumen | Un `curl` cada tantos meses mirando `total-job-count` | Con 16 ofertas no entra; con cientos y el puerto hecho, el costo sería un archivo |
+| Las rutas públicas de Greenhouse y Lever | Un `curl` al board de una empresa conocida antes de escribir el adaptador | Es la tercera fuente candidata (§1), y estas rutas cambian |
