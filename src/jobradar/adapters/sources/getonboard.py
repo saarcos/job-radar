@@ -93,6 +93,9 @@ class GetOnBoardSource:
             remote_modality=attributes.get("remote_modality"),
             salary_raw=_salary_raw(attributes),
             posted_at=_posted_at(attributes),
+            # Get on Board publishes no expiry date: absence after a successful
+            # run is its only sign that a posting closed.
+            expires_at=None,
             # Never the source's `lang`: on 2026-11-08, 27 of the 95 postings
             # declaring "en" were written in Spanish.
             language=detect(title, description_md),

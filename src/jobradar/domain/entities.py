@@ -41,6 +41,8 @@ class JobData:
         salary_raw: Salary as text, not parsed; no currency unless the source
             states one.
         posted_at: When the source published it, timezone-aware.
+        expires_at: Until when the source says this listing runs,
+            timezone-aware; None if the source does not say.
         language: Language of the posting.
         seniority_hint: Seniority as the source's own value.
         applications_count: Applicants so far; None means unknown, not zero.
@@ -55,6 +57,7 @@ class JobData:
     remote_modality: str | None
     salary_raw: str | None
     posted_at: datetime | None
+    expires_at: datetime | None
     language: Language | None
     seniority_hint: str | None
     applications_count: int | None

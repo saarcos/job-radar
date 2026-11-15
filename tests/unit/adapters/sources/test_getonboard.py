@@ -237,6 +237,12 @@ def test_posted_at_is_a_timezone_aware_datetime(company, item, job):
     assert posted_at.timestamp() == item(company)["attributes"]["published_at"]
 
 
+# Absence is the only sign that a Get on Board posting closed.
+@pytest.mark.parametrize("company", ALL_COMPANIES)
+def test_expires_at_is_none_because_get_on_board_publishes_none(company, job):
+    assert job(company).expires_at is None
+
+
 def test_salary_is_none_without_a_salary(item, job):
     assert item(IMPROVING)["attributes"]["min_salary"] is None
 

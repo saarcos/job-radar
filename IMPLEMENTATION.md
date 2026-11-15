@@ -491,7 +491,8 @@ ordered = sorted(jobs, key=lambda j: SOURCE_PRIORITY[j.source_slug])
 seen: dict[str, JobData] = {}
 for j in ordered:
     if j.canonical_key not in seen:
-        seen[j.canonical_key] = j          # el primero (mejor prioridad) gana los campos centrales
+        # el primero (mejor prioridad) gana los campos centrales
+        seen[j.canonical_key] = j
     else:
         seen[j.canonical_key] = coalesce_sparse(seen[j.canonical_key], j)
 ```
