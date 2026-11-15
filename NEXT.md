@@ -18,11 +18,12 @@ alerts are on, and the dependency graph reads `uv.lock`.
 **B3 · Pure domain — done.** `domain/normalize.py` (`company()`, `title()`,
 `canonical_key()`), `domain/html_text.py` (`to_markdown()`) and
 `domain/language.py` (`detect()`), unit-tested against real responses trimmed
-to three postings (`tests/fixtures/wwr_sample.xml`,
+to a few postings (`tests/fixtures/wwr_sample.xml`, five since B6, and
 `tests/fixtures/getonboard_sample.json`). `html2text` is a runtime
 dependency. The rules that changed from v1 are listed under B3 in
-`IMPLEMENTATION.md`. Two known failures are marked `xfail(strict=True)`: if
-one starts passing, the run turns red, so remove its marker in the same change.
+`IMPLEMENTATION.md`. A known failure is marked `xfail(strict=True)` (B6 turned
+the other one into a passing test): if it starts passing, the run turns red,
+so remove its marker in the same change.
 
 **B4 · Postings schema — done.** The six tables of §2.1 are created by
 `migrations/versions/001_job_offers_schema.py`, generated from the models in
@@ -45,10 +46,21 @@ are listed under B5 in `IMPLEMENTATION.md`. Tests now mirror `src/`, with the
 shared fixtures in `tests/conftest.py`, and `tests/unit/conftest.py` fails any
 unit test that opens a connection outside loopback.
 
+**B6 · We Work Remotely — done.** `adapters/sources/weworkremotely.py` reads
+the four category feeds with `ElementTree` and maps each posting, and
+`adapters/sources/__init__.py` lists both adapters in `SOURCES`, typed with the
+port so mypy checks each one. Remotive was evaluated and left out of v1
+(`IMPLEMENTATION.md` §1). Migration 003 adds `expires_at` to `job_postings`
+and `job_posting_sources` and turns Remotive off. `detect()` returns None when
+no stopword list clearly dominates. The rules that came from the real feeds are
+listed under B6 in `IMPLEMENTATION.md`. A real `fetch()` on 2026-11-14 brought
+184 postings (133, 12, 10 and 29 per feed) and mapped all of them.
+
 ## Next
 
-**B6 · WWR and Remotive.** Two more adapters behind the same port. If either
-needs a change outside `adapters/sources/`, the contract is wrong.
+**B7 · Sync pipeline.** `application/sync_jobs.py`: sync runs, sightings,
+dedupe and merge by priority, and `close_missing` with the 50% cut and the
+`expires_at` veto (`IMPLEMENTATION.md` §5).
 
 ## Pending
 
@@ -100,12 +112,17 @@ Decisions deferred to later blocks, and things worth knowing before them:
   recreate that database (and `<name>_models_test`) on every test, so its name
   must end in `_test`. The fixtures live in `test_migrations.py`; move them to
   `tests/integration/conftest.py` when B7 adds the first repository tests.
-- **B6 · WWR titles.** They come as `"Company: Title"`. A title without `": "`
-  leaves the company empty, and all such postings with the same title would
-  share one key.
-- **B6 · Reading the WWR fixture.** `load_fixture` parses JSON only, and
-  `wwr_item` gives `(title, description)` pairs. The adapter's test needs the
-  raw feed, so `tests/conftest.py` needs a loader for text.
+- **What a downgrade does is not tested.** The round trip to base passes even
+  if a revision's downgrade forgets a `drop_column` or a data change, because
+  001 drops the tables anyway; 003's downgrade was checked by hand with
+  `psql`. If it gets covered, use one generic test that goes up and down one
+  revision at a time and compares the schema, not a test per revision.
+- **ruff formats Markdown too.** `ruff format --check .` also checks the Python
+  blocks in `.md` files: an inline comment past the line length in a sketch of
+  `IMPLEMENTATION.md` turns CI red.
+- **`SOURCES` equals the enabled seed.** `test_migrations.py` asserts that the
+  slugs in `SOURCES` are exactly the enabled rows of `sources`. Enabling a
+  source in a migration before its adapter exists needs that test changed.
 - **B7 · Importing `tests/fakes.py`.** pytest runs with
   `--import-mode=importlib`, so test modules cannot import each other by
   default; `from tests.fakes import ...` will need extra configuration, or the
@@ -117,10 +134,16 @@ Decisions deferred to later blocks, and things worth knowing before them:
 - **B7 · Same company and title.** `canonical_key` merges them: 456 keys for
   466 Get on Board postings on 2026-11-08, four of them BC Tecnología's
   `Desarrollador Full Stack`. Whether those are one opening was not verified.
+  On WWR, 3 keys were shared among 184 postings on 2026-11-14; one is Mixpanel
+  publishing the same opening twice, 4 seconds apart (its second slug ends in
+  `-1`), where merging is right.
 - **B7 · Duplicate sightings.** A real run repeated no `external_id`, but a
   posting published while paging shifts the list and can repeat one. Remove
   duplicates by `(source_id, external_id)` before the insert, or Postgres fails
-  with *"cannot affect row a second time"*.
+  with *"cannot affect row a second time"*. The WWR adapter already keeps one
+  `RawJob` per `guid`, the first feed's; no posting was in two feeds on
+  2026-11-14, and identical fields across feeds were checked only between the
+  general feed and the full-stack one (10 postings).
 - **B7 · Decoration outside brackets.** `title()` only drops decoration inside
   brackets, so `Senior Backend Engineer - Remote` and `... (Remote)` get two
   keys: a visible duplicate, not a lost posting (strict xfail in
@@ -138,11 +161,26 @@ Decisions deferred to later blocks, and things worth knowing before them:
   Whether a posting is workable comes from `remote_modality`: 252 of the 466
   were `hybrid` or `no_remote`.
 - **B8 · What the prefilter reads.** `description_md` keeps URLs written as
-  link text: every WWR posting ends with
-  `To apply: https://weworkremotely.com/remote-jobs/<slug>`, and the slug
-  repeats the title, so a keyword can match inside it. html2text also turns
-  `&lt;` into a literal `<`. `detect()` returns `'en'` for a Spanish title
-  with no description (strict xfail in `test_language.py`).
+  link text. The WWR adapter drops the `To apply: <url>` trailer, but 82 of 133
+  full-stack descriptions still carry a URL, 75 of them in the
+  `URL: <company site>` header, so a keyword can match inside one. html2text
+  also turns `&lt;` into a literal `<`.
+- **B8 · `<region>` alone misleads.** 20 of 184 WWR postings on 2026-11-14 said
+  `Anywhere in the World` in `region` but restricted `country`, mostly to the
+  USA. `country` and `state` are in the payload, and §6 puts the region
+  mapping in each adapter, where the payload is. `state` looks like the
+  company's headquarters (`Hovedstaden`, `Telangana`); not verified.
+  `EMEA Only` is a region value too.
+- **B8 · Spanish seniority words.** §6 lists `líder`, `lider`, `jefe`,
+  `gerente`, `arquitecto`, `encargado` and `consultor` in the default
+  `exclude_seniority`, but migration 001 seeds only the 8 English words, and
+  `test_seed_has_the_three_sources_and_the_default_profile` asserts those.
+  Update both in a migration.
+- **B8 · Postings without a language.** `detect()` returns None when no
+  stopword list reaches 5% of the words (1 of 184 WWR postings, in German).
+  Decide what rule 8 of the prefilter does with a None language when the
+  profile sets `languages`, and what the resume defaults to (§0.7). Portuguese
+  still comes out `'es'`: it shares `de`, `que` and `para`.
 - **B9 · Session policy.** `get_session()` never commits; uncommitted work is
   rolled back on close. Decide whether to commit once per request or explicitly
   in each use case, and whether `get_sessionmaker()` needs

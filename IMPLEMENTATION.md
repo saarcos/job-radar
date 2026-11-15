@@ -44,7 +44,7 @@ Cron / scheduler · deploy en la nube · multiusuario · auth · scoring de ofer
 | Fuente | Endpoint | Formato | Notas |
 |---|---|---|---|
 | **Get on Board** | `https://www.getonbrd.com/api/v0/search/jobs?query=...` y `/api/v0/categories/{id}/jobs` | JSON | La mejor del conjunto. Pública, sin auth. Trae descripción completa, modalidad, países, rango salarial y **número de postulaciones**. LATAM + España, ofertas mayormente en español pero también en inglés; su campo `lang` suele venir `lang_not_specified` y tampoco es confiable cuando viene (27 de las 95 ofertas con `en` estaban en español), por eso el idioma siempre se detecta (B3). El nombre de la empresa y el seniority solo vienen pidiendo `expand=["company","seniority"]`. **No publica fecha de vencimiento**: su único indicador de cierre es la ausencia. Doc: `api-doc.getonbrd.com` |
-| **We Work Remotely** | Cuatro feeds por categoría: `remote-full-stack-programming-jobs`, `remote-back-end-programming-jobs`, `remote-front-end-programming-jobs`, `remote-devops-sysadmin-jobs` (`.rss`) | RSS | **No** usar `remote-jobs.rss` (general, 40 ofertas, 10 por categoría) ni el viejo `remote-programming-jobs.rss`: solo los de categoría traen `expires_at`, y entre los cuatro suman ~179 ofertas únicas. Se deduplican por `guid` dentro del adaptador. Sin elemento `<company>`: empresa y puesto vienen juntos en `<title>` como `"Empresa: Puesto"`. Elementos propios fuera del estándar RSS: `<region>`, `<country>`, `<state>`, `<skills>`, `<category>`, `<type>`, `<expires_at>` y `<media:content>`. Descripción en HTML, con un `To apply: <url>` al final que es boilerplate del sitio |
+| **We Work Remotely** | Cuatro feeds por categoría: `remote-full-stack-programming-jobs`, `remote-back-end-programming-jobs`, `remote-front-end-programming-jobs`, `remote-devops-sysadmin-jobs` (`.rss`) | RSS | **No** usar `remote-jobs.rss` ni el viejo `remote-programming-jobs.rss`. El general trae los mismos elementos, `expires_at` incluido, pero es una ventana: las últimas 10 ofertas de cada categoría (100 el 13-nov). El viejo no trae `expires_at`, `skills`, `type`, `country` ni `state`. Entre los cuatro de categoría suman ~180 ofertas únicas (184 el 14-nov). Se deduplican por `guid` dentro del adaptador, aunque el 14-nov no se repitió ninguna entre feeds. Sin elemento `<company>`: empresa y puesto vienen juntos en `<title>` como `"Empresa: Puesto"`. Elementos propios fuera del estándar RSS: `<region>`, `<country>`, `<state>`, `<skills>`, `<category>`, `<type>`, `<expires_at>` y `<media:content>`. Descripción en HTML, con un `To apply: <url>` al final que es boilerplate del sitio |
 | ~~**Remotive**~~ | `https://remotive.com/api/remote-jobs` | JSON | **Evaluada y descartada en v1** (14-nov). Detalle abajo |
 
 **Regla de implementación:** verificar la forma real de la respuesta antes de escribir el adaptador. Guardar una respuesta recortada a 2–3 ofertas en `tests/fixtures/<fuente>_sample.<json|xml>`, según el formato de la fuente (`getonboard_sample.json`, `wwr_sample.xml`), y testear el mapeo contra ese archivo. Ningún test sale a la red.
@@ -71,12 +71,14 @@ Cron / scheduler · deploy en la nube · multiusuario · auth · scoring de ofer
 
 ```
 Anywhere in the World · Latin America Only · USA Only · North America Only
-Europe Only · Asia Only · Africa Only · California
+Europe Only · EMEA Only · Asia Only · Africa Only · California
 ```
 
-Desde Ecuador solo sirven los dos primeros. En la muestra revisada, **casi la mitad de las ofertas son "USA Only"** y otro tercio "Anywhere in the World": una sola regla determinista descarta la mitad del feed, y es justo la mitad inaplicable.
+Desde Ecuador solo sirven los dos primeros. El 14-nov, sobre las 184 ofertas de los cuatro feeds, 112 eran "Anywhere in the World", 4 "Latin America Only" y 68 de las demás (42 "USA Only"): la regla descarta ~37% del feed por sí sola, y es justo la parte inaplicable.
 
-Ojo con las granularidades mezcladas: `California` es un estado, no una región. WWR mete las restricciones estatales dentro de `<region>`, no en `<state>`, que viene vacío en toda la muestra igual que `<country>`. Hay que tratarlo como una lista de valores conocidos, nunca como una jerarquía.
+Ojo con las granularidades mezcladas: `California` es un estado, no una región. WWR mete restricciones estatales dentro de `<region>`. Hay que tratarlo como una lista de valores conocidos, nunca como una jerarquía.
+
+**`<region>` sola no alcanza.** `<country>` y `<state>` no vienen siempre vacíos: en el feed de full-stack del 14-nov, 18 de 134 ofertas traían `country` y 16 `state`. `country` lista países con su bandera emoji (`🇺🇸 United States of America`), a veces decenas. **20 de las 184 dicen "Anywhere in the World" en `region` pero restringen en `country`**, casi siempre a EE. UU. `state` trae valores como `Hovedstaden`, `Telangana` o `Queensland` bajo "Anywhere in the World": parece la sede de la empresa, sin verificar. Los dos quedan en el payload; combinarlos con `region` es trabajo de B8.
 
 **`<skills>`** viene como texto separado por comas con un "and" antes del último (`"JSON, PostgreSQL, SQL, … and Intercom"`) y **frecuentemente vacío**: sirve de complemento al prefiltro, no de reemplazo. **`<type>`** trae `Full-Time` o `Contract`; se guarda en el payload y no tiene columna hasta que algún filtro la necesite.
 
@@ -856,17 +858,16 @@ Incluye además una migración que agrega `expires_at` a `job_postings` y a `job
 
 Reglas de WWR que salieron de la exploración:
 - Cuatro feeds por categoría, **no** el general ni el viejo `remote-programming-jobs.rss` (§1). Se deduplican por `guid` dentro del adaptador.
-- Sin elemento `<company>`: el split de `"Empresa: Puesto"` por el **primer** `:` es el camino principal, no un fallback.
-- `<region>` → `region_hint`. `<category>` se conserva en el payload.
-- `posted_at` = `pubDate` crudo. **No** `expires_at − 30`: sería un valor derivado persistido como si fuera de la fuente (§0.20). Lo que resuelve el problema de la fecha mentirosa es la regla 1 del prefiltro, no falsear el dato.
-- El `To apply: <url>` del final se descarta en el adaptador: es boilerplate del sitio, no HTML genérico, así que no es trabajo de `to_markdown`.
-- Se descartan `summary_detail` (duplica `summary`) y `published_parsed` (no es serializable).
+- Sin elemento `<company>`: el split de `"Empresa: Puesto"` por el **primer** `:` es el camino principal, no un fallback. **Un título que no lo sigue lanza `ValueError` y la corrida de WWR falla**: lo más probable es que haya cambiado la plantilla para todas las ofertas, y una corrida fallida no cierra nada. Guardarlas con la empresa vacía las fusionaría por título sin que nadie se entere.
+- `<region>` → `region_hint`, crudo. `<category>`, `<country>`, `<state>`, `<skills>` y `<type>` se conservan en el payload.
+- `posted_at` = `pubDate` crudo. **No** `expires_at − 30`: sería un valor derivado persistido como si fuera de la fuente (§0.20). Lo que resuelve el problema de la fecha mentirosa es la regla 1 del prefiltro, no falsear el dato. Una fecha `-0000` se toma como UTC (RFC 5322 §3.3); `parsedate_to_datetime` la devuelve sin zona.
+- El `To apply: <url>` del final se descarta en el adaptador: es boilerplate del sitio, no HTML genérico, así que no es trabajo de `to_markdown`. Solo el párrafo final exacto, con el link a la propia oferta: hay cuerpos que dicen "To apply, submit your CV…" por su cuenta.
 - **El XML se lee como bytes**, dejando que el parser respete la declaración de encoding. Leerlo con el default del sistema produce mojibake (`DÃ¼sseldorf`) que termina guardado en el fixture.
-- Elegir feedparser **o** `ElementTree` y escribirlo en el ticket: los campos se llaman distinto (`summary`/`published` contra `description`/`pubDate`).
+- **`ElementTree`, no feedparser.** feedparser renombra los campos (`summary`/`published` contra `description`/`pubDate`), agrega un `published_parsed` que no es serializable y no garantiza exponer los elementos propios de WWR, que son los que más valen. El payload lleva solo los 11 elementos que nombra el adaptador: `media:content` (el logo) y `guid` (repite `link`) quedan fuera.
 
-Ajuste a B3 que entra acá: `language.detect()` devuelve `None` cuando ninguna lista de stopwords domina con claridad. El feed de WWR trae ofertas en alemán, y hoy el clasificador las etiquetaría `es` o `en`, inventando un dato.
+Ajuste a B3 que entra acá: `language.detect()` devuelve `None` cuando ninguna lista de stopwords domina con claridad: la ganadora tiene que superar estrictamente a la otra y cubrir al menos el 5% de las palabras (`MIN_STOPWORD_SHARE`). Si no, `None`, también ante un empate o sin ninguna stopword. Calibrado sobre 231 ofertas reales de WWR y el fixture de Get on Board: el inglés da ≥ 6,5%, el español 26–30% y la oferta en alemán 2,8%. El portugués sigue saliendo `es`: comparte `de`, `que` y `para`.
 
-*Listo:* las dos fuentes en la lista `SOURCES`, sin cambios fuera de `adapters/sources/` salvo la migración y el ajuste de `detect()`.
+*Listo:* las dos fuentes en la lista `SOURCES`, sin cambios fuera de `adapters/sources/` salvo la migración y el ajuste de `detect()`. El puerto no cambió; `JobData` sumó `expires_at`, que ya figuraba en §4.1, y por eso Get on Board pasa `None` explícito. `SOURCES` se tipa con el puerto, así que mypy verifica cada adaptador en CI.
 
 **B7 · Pipeline de sync**
 `sync_jobs.py` completo: avistamientos, dedupe, merge por prioridad con las dos reglas (campos centrales en bloque, dispersos por coalesce), `sync_runs`, corrida parcial = corrida fallida, `close_missing` con el corte del 50% y el veto por `expires_at`, y el warning de avistamientos sin condición de muerte.
