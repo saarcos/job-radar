@@ -31,12 +31,23 @@ def test_wwr_posting_is_english(wwr_item):
     assert detect(title, to_markdown(description)) == "en"
 
 
-def test_empty_text_is_english():
-    assert detect("", None) == "en"
+def test_empty_text_is_none():
+    assert detect("", None) is None
 
 
-def test_tie_is_english():
-    assert detect("Backend de Python", "Remote, the best") == "en"
+def test_tie_is_none():
+    assert detect("Backend de Python", "Remote, the best") is None
+
+
+def test_stopwords_at_exactly_the_minimum_share_decide():
+    # 1 stopword in 20 words: 5%.
+    assert detect("the", " ".join(["lorem"] * 19)) == "en"
+
+
+def test_stopwords_below_the_minimum_share_are_none():
+    # 1 stopword in 21 words: under 5%. A language outside the lists still
+    # shares a few of their words: German writes "in" too.
+    assert detect("the", " ".join(["lorem"] * 20)) is None
 
 
 def test_ignores_case():
@@ -51,9 +62,6 @@ def test_spanish_a_does_not_count_as_english():
     )
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="a Spanish title alone has no stopwords, and the tie falls back to 'en'",
-)
-def test_spanish_title_without_description():
-    assert detect("Desarrollador/a Full-Stack", None) == "es"
+# No stopwords at all: the honest answer is "unknown", not a guess.
+def test_spanish_title_without_stopwords_is_none():
+    assert detect("Desarrollador/a Full-Stack", None) is None
