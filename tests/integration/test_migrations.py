@@ -22,6 +22,7 @@ from sqlalchemy.pool import NullPool
 
 from jobradar.adapters.persistence.db import CONNECT_TIMEOUT_SECONDS
 from jobradar.adapters.persistence.models import Base
+from jobradar.adapters.sources import SOURCES
 
 # Where alembic.ini and .env are, whatever directory pytest runs from.
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -242,6 +243,18 @@ def test_seed_has_the_three_sources_and_the_default_profile(empty_database: URL)
             None,
         )
     ]
+
+
+# The sync finds each source's row by its slug. A source in code that the seed
+# lacks or has turned off would never sync; one enabled in the seed with no
+# adapter would never run successfully.
+def test_sources_in_code_are_the_enabled_ones_in_the_seed(empty_database: URL):
+    alembic(empty_database, "upgrade", "head")
+
+    with connect(empty_database) as conn:
+        enabled = set(conn.scalars(text("SELECT slug FROM sources WHERE enabled")))
+
+    assert {source.slug for source in SOURCES} == enabled
 
 
 def test_migrations_and_models_define_the_same_constraints_and_indexes(
